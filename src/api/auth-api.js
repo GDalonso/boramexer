@@ -44,3 +44,14 @@ export const sendEmailWithPassword = async (email) => {
     }
   }
 }
+
+export const getCurrentUserId = () => {
+  try {
+    const user = firebase.auth().currentUser
+    return user.uid
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
+}
