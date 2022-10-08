@@ -14,11 +14,14 @@ export default function Dashboard({ navigation }) {
         Your amazing app starts here. Open you favorite code editor and start
         editing this project.
       </Paragraph>
+      <Button mode="outlined" onPress={() => navigation.navigate('TeamScreen')}>
+        Criar Time
+      </Button>
       <Button
         mode="outlined"
-        onPress={() => navigation.navigate('TeamScreen')}
+        onPress={() => navigation.navigate('TeamListScreen')}
       >
-        Criar Time
+        See all teams available
       </Button>
       <Button mode="outlined" onPress={logoutUser}>
         Logout

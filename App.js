@@ -12,7 +12,8 @@ import {
   RegisterScreen,
   ResetPasswordScreen,
   Dashboard,
-  TeamScreen
+  TeamScreen,
+  TeamListScreen,
 } from './src/screens'
 import { FIREBASE_CONFIG } from './src/core/config'
 
@@ -44,6 +45,7 @@ export default function App() {
             component={ResetPasswordScreen}
           />
           <Stack.Screen name="TeamScreen" component={TeamScreen} />
+          <Stack.Screen name="TeamListScreen" component={TeamListScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
