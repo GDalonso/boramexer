@@ -3,7 +3,7 @@ import 'firebase/database'
 import 'firebase/firestore'
 import { getCurrentUserId } from './auth-api'
 
-export const createTeam = async ({ name, descricao, endereco, horario }) => {
+export const createTeam = async ({ nome, descricao, endereco, horario }) => {
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
@@ -16,11 +16,12 @@ export const createTeam = async ({ name, descricao, endereco, horario }) => {
     const db = firebase.firestore()
     db.collection('times')
       .add({
-        name,
+        nome,
         descricao,
         endereco,
         horario,
         userId,
+        created: firebase.database.ServerValue.TIMESTAMP,
       })
       .then((docRef) => {
         console.log('Document written with ID: ', docRef.id)
@@ -30,12 +31,12 @@ export const createTeam = async ({ name, descricao, endereco, horario }) => {
       })
 
     sleep(200).then(() => {
-      console.log(name)
+      console.log(nome)
       console.log(descricao)
       console.log(endereco)
       console.log(horario)
     })
-    return name // function needs to return something
+    return nome // function needs to return something
   } catch (error) {
     return {
       error: error.message,

@@ -10,7 +10,7 @@ import TextInput from '../components/TextInput'
 import Toast from '../components/Toast'
 
 export default function TeamScreen({ navigation }) {
-  const [name, setName] = useState({ value: '', error: '' })
+  const [nome, setNome] = useState({ value: '', error: '' })
   const [descricao, setDescricao] = useState({ value: '', error: '' })
   const [endereco, setEndereco] = useState({ value: '', error: '' })
   const [horario, setHorario] = useState({ value: '', error: '' })
@@ -21,13 +21,13 @@ export default function TeamScreen({ navigation }) {
   const onTeamCreatePressed = async () => {
     // field cannot be empty validators for now
     // actual validators still to be implemented
-    const nameError = nameValidator(name.value)
+    const nomeError = nameValidator(nome.value)
     const descricaoError = nameValidator(descricao.value)
     const enderecoError = nameValidator(endereco.value)
     const horarioError = nameValidator(horario.value)
 
-    if (nameError || descricaoError || enderecoError || horarioError) {
-      setName({ ...name, error: nameError })
+    if (nomeError || descricaoError || enderecoError || horarioError) {
+      setNome({ ...nome, error: nomeError })
       setDescricao({ ...descricao, error: descricaoError })
       setEndereco({ ...endereco, error: enderecoError })
       setHorario({ ...horario, error: horarioError })
@@ -35,7 +35,7 @@ export default function TeamScreen({ navigation }) {
     }
     setLoading(true)
     const response = await createTeam({
-      name: name.value,
+      nome: nome.value,
       descricao: descricao.value,
       endereco: endereco.value,
       horario: horario.value,
@@ -53,10 +53,10 @@ export default function TeamScreen({ navigation }) {
       <TextInput
         label="Nome"
         returnKeyType="next"
-        value={name.value}
-        onChangeText={(text) => setName({ value: text, error: '' })}
-        error={!!name.error}
-        errorText={name.error}
+        value={nome.value}
+        onChangeText={(text) => setNome({ value: text, error: '' })}
+        error={!!nome.error}
+        errorText={nome.error}
       />
       <TextInput
         label="Descrição"
