@@ -21,7 +21,7 @@ export const createTeam = async ({ nome, descricao, endereco, horario }) => {
         endereco,
         horario,
         userId,
-        created: firebase.database.ServerValue.TIMESTAMP,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then((docRef) => {
         console.log('Document written with ID: ', docRef.id)
