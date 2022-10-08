@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // Replace with your own firebase config!
 export const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyC1yoalPgLNS7LL_z76wlGOD3JJpYz9xXA',
