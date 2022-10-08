@@ -1,6 +1,5 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
-// import firebase from 'firebase/app'
+import firebase from 'firebase/app'
+import 'firebase/database'
 
 export const createTeam = async ({ name, descricao, endereco, horario }) => {
   function sleep(ms) {
@@ -9,23 +8,26 @@ export const createTeam = async ({ name, descricao, endereco, horario }) => {
   // Initialize Realtime Database and get a reference to the service
 
   try {
-    // const app =
-    //   getApps().length === 0 ? initializeApp(FIREBASE_CONFIG) : getApp()
-    // const database = getDatabase(app)
-    const database = getDatabase()
-    // firebase.database().ref('times/1').set({
-    //   name,
-    //   descricao,
-    //   endereco,
-    //   horario,
-    // })
-
-    set(ref(database, 'times/1'), {
-      name,
-      descricao,
-      endereco,
-      horario,
-    })
+    const response = firebase
+      .database()
+      .ref('times/11')
+      .set(
+        {
+          name,
+          descricao,
+          endereco,
+          horario,
+        },
+        (error) => {
+          if (error) {
+            // The write failed...
+            console.log(error)
+          } else {
+            // Data saved successfully!
+            console.log('data saved successfully')
+          }
+        }
+      )
 
     sleep(200).then(() => {
       console.log(name)
