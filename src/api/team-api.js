@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/firestore'
 import { getCurrentUserId } from './auth-api'
+import { resultFeedbackAlert } from '../helpers/Alert'
 
 export const createTeam = async ({ nome, descricao, endereco, horario }) => {
   function sleep(ms) {
@@ -25,17 +26,12 @@ export const createTeam = async ({ nome, descricao, endereco, horario }) => {
       })
       .then((docRef) => {
         console.log('Document written with ID: ', docRef.id)
+        resultFeedbackAlert('Criação de time', 'Sucesso')
       })
       .catch((error) => {
         console.error('Error adding document: ', error)
       })
 
-    sleep(200).then(() => {
-      console.log(nome)
-      console.log(descricao)
-      console.log(endereco)
-      console.log(horario)
-    })
     return nome // function needs to return something
   } catch (error) {
     return {
