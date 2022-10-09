@@ -5,11 +5,6 @@ import { getCurrentUserId } from './auth-api'
 import { resultFeedbackAlert } from '../helpers/Alert'
 
 export const createTeam = async ({ nome, descricao, endereco, horario }) => {
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms))
-  }
-  // Initialize Realtime Database and get a reference to the service
-
   try {
     // Initialize Cloud Firestore and get a reference to the service
     const userId = getCurrentUserId()
@@ -33,6 +28,31 @@ export const createTeam = async ({ nome, descricao, endereco, horario }) => {
       })
 
     return nome // function needs to return something
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
+}
+
+export const getTeams = async () => {
+  try {
+    const teams = []
+
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = firebase.firestore()
+
+    await db.collection('times')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          teams.push(doc.data())
+        })
+      })
+      .catch((error) => {
+        console.error('Error fetching documents: ', error)
+      })
+    return teams
   } catch (error) {
     return {
       error: error.message,

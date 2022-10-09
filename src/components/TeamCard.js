@@ -3,7 +3,14 @@ import { StyleSheet } from 'react-native'
 import { Text } from 'react-native-paper'
 
 export default function TeamCard({ nome, descricao, endereco, horario }) {
-  return <Text style={styles.text}> {nome} </Text>
+  return (
+    <div>
+      <Text style={styles.text}> {nome} </Text>
+      <Text style={styles.text}> {descricao} </Text>
+      <Text style={styles.text}> {endereco} </Text>
+      <Text style={styles.text}> {horario} </Text>
+    </div>
+  )
 }
 
 const styles = StyleSheet.create({
