@@ -1,0 +1,11 @@
+.team_card{
+    width: 280px;
+    background-color:  #F0F0F0;
+    
+    box-shadow: 5px 5px 15px #00000014;
+    border-radius: 0px 0px 10px 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    padding: 36px 64px;
+}
