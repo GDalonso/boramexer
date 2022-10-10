@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import Toast from '../components/Toast'
 import TeamCard from '../components/TeamCard'
 import { getTeams } from '../api/team-api'
+import { theme } from '../core/theme'
 
 export default function TeamListScreen({ navigation }) {
   const [loading, setLoading] = useState(true)
@@ -26,7 +27,11 @@ export default function TeamListScreen({ navigation }) {
   }, [])
 
   if (!times.length > 0) {
-    return <ActivityIndicator size="small" color="#0000ff" />
+    return (
+      <Background>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </Background>
+    )
   }
 
   return (
