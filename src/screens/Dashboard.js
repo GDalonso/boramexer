@@ -23,6 +23,14 @@ export default function Dashboard({ navigation }) {
       >
         See all teams available
       </Button>
+      <Button
+        mode="outlined"
+        onPress={() =>
+          navigation.navigate('TeamListScreen', { currentUserTeams: true })
+        }
+      >
+        See your teams
+      </Button>
       <Button mode="outlined" onPress={logoutUser}>
         Logout
       </Button>

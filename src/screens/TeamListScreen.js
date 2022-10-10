@@ -5,17 +5,25 @@ import Logo from '../components/Logo'
 import Header from '../components/Header'
 import Toast from '../components/Toast'
 import TeamCard from '../components/TeamCard'
-import { getTeams } from '../api/team-api'
+import { getTeams, getTeamsByUser } from '../api/team-api'
 import { theme } from '../core/theme'
+import { getCurrentUserId } from '../api/auth-api'
 
-export default function TeamListScreen({ navigation }) {
+export default function TeamListScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
   const [times, setTeams] = useState([])
+  const authenticated_UserId = getCurrentUserId()
 
+  // Define if itll show all teams or only the current user ones
+  const query_function =
+    route.params && route.params.currentUserTeams ? getTeamsByUser : getTeams
+  console.log(query_function)
+
+  // fetch teams from the database
   useEffect(() => {
     setLoading(true)
-    getTeams()
+    query_function(authenticated_UserId)
       .then((r) => {
         setTeams(r)
       })
@@ -26,6 +34,7 @@ export default function TeamListScreen({ navigation }) {
       })
   }, [])
 
+  // Loading slider while DB is being queryed
   if (!times.length > 0) {
     return (
       <Background>
