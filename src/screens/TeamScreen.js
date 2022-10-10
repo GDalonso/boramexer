@@ -10,10 +10,30 @@ import TextInput from '../components/TextInput'
 import Toast from '../components/Toast'
 
 export default function TeamScreen({ route, navigation }) {
-  const [nome, setNome] = useState({ value: '', error: '' })
-  const [descricao, setDescricao] = useState({ value: '', error: '' })
-  const [endereco, setEndereco] = useState({ value: '', error: '' })
-  const [horario, setHorario] = useState({ value: '', error: '' })
+  // Sets all the initial values if any existing data was sent
+  const nomeInitialValue =
+    route.params && route.params.editing ? route.params.nome : ''
+  const descricaoInitialValue =
+    route.params && route.params.editing ? route.params.descricao : ''
+  const enderecoInitialValue =
+    route.params && route.params.editing ? route.params.endereco : ''
+  const horarioInitialValue =
+    route.params && route.params.editing ? route.params.horario : ''
+
+  // Initialize all the variables for the data
+  const [nome, setNome] = useState({ value: nomeInitialValue, error: '' })
+  const [descricao, setDescricao] = useState({
+    value: descricaoInitialValue,
+    error: '',
+  })
+  const [endereco, setEndereco] = useState({
+    value: enderecoInitialValue,
+    error: '',
+  })
+  const [horario, setHorario] = useState({
+    value: horarioInitialValue,
+    error: '',
+  })
 
   const [loading, setLoading] = useState()
   const [error, setError] = useState()
