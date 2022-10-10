@@ -25,17 +25,20 @@ export default function TeamCard({
       <Text style={styles.regularText}> {horario} </Text>
 
       {doc_UserId != authenticated_UserId && (
-        <Button mode="contained" onPress={() => console.log('aa')}>
+        <Button
+          mode="contained"
+          onPress={() => console.log('Pedir para participar')}
+        >
           Pedir para participar
         </Button>
       )}
 
       {doc_UserId == authenticated_UserId && (
         <>
-          <Button mode="contained" onPress={() => console.log('aa')}>
+          <Button mode="contained" onPress={() => console.log('Editar')}>
             Editar
           </Button>
-          <Button mode="contained" onPress={() => console.log('aa')}>
+          <Button mode="contained" onPress={() => console.log('Desfazer time')}>
             Desfazer Time
           </Button>
         </>
