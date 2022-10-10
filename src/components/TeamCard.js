@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Text } from 'react-native-paper'
 import './team_card.css'
+import { useNavigation } from '@react-navigation/native'
 import Button from './Button'
 import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
@@ -13,7 +14,12 @@ export default function TeamCard({
   horario,
   doc_UserId,
 }) {
+  // Currently Authenticated User
   const authenticated_UserId = getCurrentUserId()
+
+  // Import a navigator for screen redirection
+  const navigation = useNavigation()
+
   return (
     <div className="team_card">
       <Text style={styles.titleText}>{nome}</Text>
@@ -35,7 +41,18 @@ export default function TeamCard({
 
       {doc_UserId == authenticated_UserId && (
         <>
-          <Button mode="contained" onPress={() => console.log('Editar')}>
+          <Button
+            mode="contained"
+            onPress={() =>
+              navigation.navigate('TeamScreen', {
+                editing: true,
+                nome,
+                descricao,
+                endereco,
+                horario,
+              })
+            }
+          >
             Editar
           </Button>
           <Button mode="contained" onPress={() => console.log('Desfazer time')}>

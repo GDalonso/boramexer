@@ -9,7 +9,7 @@ import { createTeam } from '../api/team-api'
 import TextInput from '../components/TextInput'
 import Toast from '../components/Toast'
 
-export default function TeamScreen({ navigation }) {
+export default function TeamScreen({ route, navigation }) {
   const [nome, setNome] = useState({ value: '', error: '' })
   const [descricao, setDescricao] = useState({ value: '', error: '' })
   const [endereco, setEndereco] = useState({ value: '', error: '' })
@@ -17,6 +17,9 @@ export default function TeamScreen({ navigation }) {
 
   const [loading, setLoading] = useState()
   const [error, setError] = useState()
+
+  const header_message =
+    route.params && route.params.editing ? 'Editar seu Time' : 'Criar um Time'
 
   const onTeamCreatePressed = async () => {
     // field cannot be empty validators for now
@@ -49,7 +52,7 @@ export default function TeamScreen({ navigation }) {
   return (
     <Background>
       <Logo />
-      <Header>Criar um time</Header>
+      <Header>{header_message}</Header>
       <TextInput
         label="Nome"
         returnKeyType="next"
