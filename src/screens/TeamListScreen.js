@@ -18,7 +18,6 @@ export default function TeamListScreen({ route, navigation }) {
   // Define if itll show all teams or only the current user ones
   const query_function =
     route.params && route.params.currentUserTeams ? getTeamsByUser : getTeams
-  console.log(query_function)
 
   // fetch teams from the database
   useEffect(() => {
