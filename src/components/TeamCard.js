@@ -4,8 +4,16 @@ import { Text } from 'react-native-paper'
 import './team_card.css'
 import Button from './Button'
 import { theme } from '../core/theme'
+import { getCurrentUserId } from '../api/auth-api'
 
-export default function TeamCard({ nome, descricao, endereco, horario }) {
+export default function TeamCard({
+  nome,
+  descricao,
+  endereco,
+  horario,
+  doc_UserId,
+}) {
+  const authenticated_UserId = getCurrentUserId()
   return (
     <div className="team_card">
       <Text style={styles.titleText}>{nome}</Text>
@@ -15,9 +23,23 @@ export default function TeamCard({ nome, descricao, endereco, horario }) {
       <br />
       <Text style={styles.regularText}> {endereco} </Text>
       <Text style={styles.regularText}> {horario} </Text>
-      <Button mode="contained" onPress={() => console.log('aa')}>
-        Pedir para participar
-      </Button>
+
+      {doc_UserId != authenticated_UserId && (
+        <Button mode="contained" onPress={() => console.log('aa')}>
+          Pedir para participar
+        </Button>
+      )}
+
+      {doc_UserId == authenticated_UserId && (
+        <>
+          <Button mode="contained" onPress={() => console.log('aa')}>
+            Editar
+          </Button>
+          <Button mode="contained" onPress={() => console.log('aa')}>
+            Desfazer Time
+          </Button>
+        </>
+      )}
     </div>
   )
 }

@@ -45,6 +45,7 @@ export default function TeamListScreen({ navigation }) {
             descricao={time.descricao}
             endereco={time.endereco}
             horario={time.horario}
+            doc_UserId={time.userId}
           />
         </div>
       ))}
