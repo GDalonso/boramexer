@@ -4,14 +4,20 @@ import 'firebase/firestore'
 import { getCurrentUserId } from './auth-api'
 import { resultFeedbackAlert } from '../helpers/Alert'
 
-export const createTeam = async ({ nome, descricao, endereco, horario }) => {
+export const createTeam = async ({
+  nome,
+  descricao,
+  endereco,
+  horario,
+  doc_id = undefined,
+}) => {
   try {
     // Initialize Cloud Firestore and get a reference to the service
     const userId = getCurrentUserId()
-
     const db = firebase.firestore()
     db.collection('times')
-      .add({
+      .doc(doc_id) //If doc id is undefined creates a new doc
+      .set({
         nome,
         descricao,
         endereco,
@@ -19,8 +25,8 @@ export const createTeam = async ({ nome, descricao, endereco, horario }) => {
         userId,
         created: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef.id)
+      .then(() => {
+        console.log('escreveu com sucesso')
         resultFeedbackAlert('Criação de time', 'Sucesso')
       })
       .catch((error) => {
@@ -35,7 +41,7 @@ export const createTeam = async ({ nome, descricao, endereco, horario }) => {
   }
 }
 
-export const getTeams = async (_=null) => {
+export const getTeams = async (_ = null) => {
   try {
     const teams = []
 
@@ -48,7 +54,7 @@ export const getTeams = async (_=null) => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          teams.push({...doc.data(), doc_id: doc.id})
+          teams.push({ ...doc.data(), doc_id: doc.id })
         })
       })
       .catch((error) => {
@@ -70,9 +76,9 @@ export const getTeamsByUser = async (userId) => {
     const db = firebase.firestore()
 
     if (!userId) {
-      console.log("Provide user id")
+      console.log('Provide user id')
       return {
-        error: "Provide an user id"
+        error: 'Provide an user id',
       }
     }
     await db
@@ -81,7 +87,7 @@ export const getTeamsByUser = async (userId) => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          teams.push(doc.data())
+          teams.push({ ...doc.data(), doc_id: doc.id })
         })
       })
       .catch((error) => {

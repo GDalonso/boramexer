@@ -48,7 +48,6 @@ export default function TeamListScreen({ route, navigation }) {
       <Header>Times Disponíveis</Header>
       {times.map((time, index) => (
         <div key={index}>
-          {console.log(time)}
           <TeamCard
             nome={time.nome}
             descricao={time.descricao}
