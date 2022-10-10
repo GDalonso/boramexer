@@ -5,7 +5,7 @@ import Header from '../components/Header'
 import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import { nameValidator } from '../helpers/nameValidator'
-import { createTeam } from '../api/team-api'
+import { setTeam } from '../api/team-api'
 import TextInput from '../components/TextInput'
 import Toast from '../components/Toast'
 
@@ -39,8 +39,8 @@ export default function TeamScreen({ route, navigation }) {
   const [loading, setLoading] = useState()
   const [error, setError] = useState()
 
-  const header_message =
-    route.params && route.params.editing ? 'Editar seu Time' : 'Criar um Time'
+  const create_edit =
+    route.params && route.params.editing ? 'Editar' : 'Criar'
 
   const onTeamCreatePressed = async () => {
     // field cannot be empty validators for now
@@ -58,7 +58,7 @@ export default function TeamScreen({ route, navigation }) {
       return
     }
     setLoading(true)
-    const response = await createTeam({
+    const response = await setTeam({
       nome: nome.value,
       descricao: descricao.value,
       endereco: endereco.value,
@@ -74,7 +74,7 @@ export default function TeamScreen({ route, navigation }) {
   return (
     <Background>
       <Logo />
-      <Header>{header_message}</Header>
+      <Header>{create_edit} seu time</Header>
       <TextInput
         label="Nome"
         returnKeyType="next"
@@ -108,7 +108,7 @@ export default function TeamScreen({ route, navigation }) {
         errorText={horario.error}
       />
       <Button mode="outlined" loading={loading} onPress={onTeamCreatePressed}>
-        Criar Time
+        {create_edit}
       </Button>
       <Toast message={error} onDismiss={() => setError('')} />
     </Background>
