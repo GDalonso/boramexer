@@ -19,6 +19,7 @@ export default function TeamScreen({ route, navigation }) {
     route.params && route.params.editing ? route.params.endereco : ''
   const horarioInitialValue =
     route.params && route.params.editing ? route.params.horario : ''
+  const doc_id = route.params && route.params.editing ? route.params.doc_id : null
 
   // Initialize all the variables for the data
   const [nome, setNome] = useState({ value: nomeInitialValue, error: '' })

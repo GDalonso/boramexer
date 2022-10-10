@@ -48,7 +48,7 @@ export const getTeams = async (_=null) => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          teams.push(doc.data())
+          teams.push({...doc.data(), doc_id: doc.id})
         })
       })
       .catch((error) => {

@@ -13,6 +13,7 @@ export default function TeamCard({
   endereco,
   horario,
   doc_UserId,
+  doc_id,
 }) {
   // Currently Authenticated User
   const authenticated_UserId = getCurrentUserId()
@@ -50,6 +51,7 @@ export default function TeamCard({
                 descricao,
                 endereco,
                 horario,
+                doc_id,
               })
             }
           >
