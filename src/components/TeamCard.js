@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import Button from './Button'
 import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
+import { deleteTeamsByUser } from '../api/team-api'
 
 export default function TeamCard({
   nome,
@@ -57,7 +58,10 @@ export default function TeamCard({
           >
             Editar
           </Button>
-          <Button mode="contained" onPress={() => console.log('Desfazer time')}>
+          <Button
+            mode="contained"
+            onPress={() => deleteTeamsByUser(authenticated_UserId, doc_id)}
+          >
             Desfazer Time
           </Button>
         </>
