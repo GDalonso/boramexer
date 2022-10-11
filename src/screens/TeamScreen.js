@@ -113,7 +113,7 @@ export default function TeamScreen({ route, navigation }) {
       <Button mode="outlined" loading={loading} onPress={onTeamCreatePressed}>
         {create_edit}
       </Button>
-      <Toast {...toast} onDismiss={() => setToast({ value: '', type: '' })} />
+      <Toast {...toast} onDismiss={() => navigation.navigate('TeamListScreen')} />
     </Background>
   )
 }
