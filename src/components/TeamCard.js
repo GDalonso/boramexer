@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { Text } from 'react-native-paper'
 import './team_card.css'
@@ -7,6 +7,7 @@ import Button from './Button'
 import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
 import { deleteTeamsByUser } from '../api/team-api'
+import Toast from './Toast'
 
 export default function TeamCard({
   nome,
@@ -21,6 +22,13 @@ export default function TeamCard({
 
   // Import a navigator for screen redirection
   const navigation = useNavigation()
+
+  const [toast, setToast] = useState({ value: '', type: '' })
+
+  const handle_deletion = async () => {
+    const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
+    setToast({ type: 'success', message: result })
+  }
 
   return (
     <div className="team_card">
@@ -58,12 +66,13 @@ export default function TeamCard({
           >
             Editar
           </Button>
-          <Button
-            mode="contained"
-            onPress={() => deleteTeamsByUser(authenticated_UserId, doc_id)}
-          >
+          <Button mode="contained" onPress={handle_deletion}>
             Desfazer Time
           </Button>
+          <Toast
+            {...toast}
+            onDismiss={() => navigation.navigate('TeamListScreen')}
+          />
         </>
       )}
     </div>
