@@ -11,35 +11,26 @@ export const setTeam = async ({
   horario,
   doc_id = undefined,
 }) => {
-  try {
-    // Initialize Cloud Firestore and get a reference to the service
-    const userId = getCurrentUserId()
-    const db = firebase.firestore()
-    db.collection('times')
-      .doc(doc_id) // If doc id is undefined creates a new doc
-      .set({
-        nome,
-        descricao,
-        endereco,
-        horario,
-        userId,
-        created: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        console.log('escreveu com sucesso')
-        return { success: 'escreveu com sucesso' }
-      })
-      .catch((error) => {
-        console.error('Error adding document: ', error)
-        return { error: 'error' }
-      })
-
-    return 'Criado com sucesso' // function needs to return something
-  } catch (error) {
-    return {
-      error: error.message,
-    }
-  }
+  // Initialize Cloud Firestore and get a reference to the service
+  const userId = getCurrentUserId()
+  const db = firebase.firestore()
+  await db.collection('times')
+    .doc(doc_id) // If doc id is undefined creates a new doc
+    .set({
+      nome,
+      descricao,
+      endereco,
+      horario,
+      userId,
+      created: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+    .then((r) => {
+      console.log('escreveu com sucesso' + r)
+    })
+    .catch((error) => {
+      console.error('Error adding document: ', error)
+      throw error
+    })
 }
 
 export const getTeams = async (_ = null) => {
