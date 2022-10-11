@@ -27,10 +27,11 @@ export const setTeam = async ({
       })
       .then(() => {
         console.log('escreveu com sucesso')
-        resultFeedbackAlert('Criação de time', 'Sucesso')
+        return { success: 'escreveu com sucesso' }
       })
       .catch((error) => {
         console.error('Error adding document: ', error)
+        return { error: 'error' }
       })
 
     return 'Criado com sucesso' // function needs to return something
@@ -106,7 +107,7 @@ export const deleteTeamsByUser = async (userId, doc_id) => {
     // Initialize Cloud Firestore and get a reference to the service
     const db = firebase.firestore()
     const currently_authenticated_userId = getCurrentUserId()
-    console.log("deleting: " + doc_id)
+    console.log('deleting: ' + doc_id)
 
     if (!userId) {
       console.log('Provide user id')

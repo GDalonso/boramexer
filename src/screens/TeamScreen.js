@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { View, StyleSheet, Alert } from 'react-native'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -38,9 +39,9 @@ export default function TeamScreen({ route, navigation }) {
 
   const [loading, setLoading] = useState()
   const [error, setError] = useState()
+  const [toast, setToast] = useState({ value: '', type: '' })
 
-  const create_edit =
-    route.params && route.params.editing ? 'Editar' : 'Criar'
+  const create_edit = route.params && route.params.editing ? 'Editar' : 'Criar'
 
   const onTeamCreatePressed = async () => {
     // field cannot be empty validators for now
@@ -64,7 +65,9 @@ export default function TeamScreen({ route, navigation }) {
       endereco: endereco.value,
       horario: horario.value,
       doc_id,
-    })
+    }).then(
+      setToast({ type: 'success', message: "Time criado com sucesso"})
+    )
     if (response.error) {
       setError(response.error)
     }
@@ -110,7 +113,7 @@ export default function TeamScreen({ route, navigation }) {
       <Button mode="outlined" loading={loading} onPress={onTeamCreatePressed}>
         {create_edit}
       </Button>
-      <Toast message={error} onDismiss={() => setError('')} />
+      <Toast {...toast} onDismiss={() => setToast({ value: '', type: '' })} />
     </Background>
   )
 }
