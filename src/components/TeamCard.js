@@ -16,7 +16,7 @@ export default function TeamCard({
   horario,
   doc_UserId,
   doc_id,
-  stateChanger
+  stateChanger //Number, changing it's value reloads the page
 }) {
   // Currently Authenticated User
   const authenticated_UserId = getCurrentUserId()
@@ -72,7 +72,7 @@ export default function TeamCard({
           </Button>
           <Toast
             {...toast}
-            onDismiss={() => stateChanger([])}
+            onDismiss={() => stateChanger(() => Math.random())}
           />
         </>
       )}

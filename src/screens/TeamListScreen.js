@@ -10,7 +10,7 @@ import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
 
 export default function TeamListScreen({ route, navigation }) {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(0)
   const [error, setError] = useState()
   const [times, setTeams] = useState([])
 
@@ -22,7 +22,6 @@ export default function TeamListScreen({ route, navigation }) {
 
   // fetch teams from the database
   useEffect(() => {
-    setLoading(true)
     query_function(authenticated_UserId)
       .then((r) => {
         setTeams(r)
@@ -32,7 +31,7 @@ export default function TeamListScreen({ route, navigation }) {
         console.log(e)
         throw e
       })
-  }, [times])
+  }, [loading])
 
   // Loading slider while DB is being queryed
   if (!times.length > 0) {
@@ -56,7 +55,7 @@ export default function TeamListScreen({ route, navigation }) {
             horario={time.horario}
             doc_UserId={time.userId}
             doc_id={time.doc_id}
-            stateChanger={setTeams}
+            stateChanger={setLoading}
           />
         </div>
       ))}
