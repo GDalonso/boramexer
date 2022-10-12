@@ -66,7 +66,7 @@ export default function TeamScreen({ route, navigation }) {
       horario: horario.value,
       doc_id,
     }).then((r) => {
-      setToast({ type: 'success', message: 'Time criado com sucesso' })
+      setToast({ type: 'success', message: 'Operação gravada com sucesso' })
     })
 
     setLoading(false)

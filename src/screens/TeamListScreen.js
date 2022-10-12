@@ -13,6 +13,7 @@ export default function TeamListScreen({ route, navigation }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState()
   const [times, setTeams] = useState([])
+
   const authenticated_UserId = getCurrentUserId()
 
   // Define if itll show all teams or only the current user ones
@@ -31,7 +32,7 @@ export default function TeamListScreen({ route, navigation }) {
         console.log(e)
         throw e
       })
-  }, [])
+  }, [times])
 
   // Loading slider while DB is being queryed
   if (!times.length > 0) {
@@ -55,6 +56,7 @@ export default function TeamListScreen({ route, navigation }) {
             horario={time.horario}
             doc_UserId={time.userId}
             doc_id={time.doc_id}
+            stateChanger={setTeams}
           />
         </div>
       ))}

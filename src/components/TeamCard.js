@@ -16,6 +16,7 @@ export default function TeamCard({
   horario,
   doc_UserId,
   doc_id,
+  stateChanger
 }) {
   // Currently Authenticated User
   const authenticated_UserId = getCurrentUserId()
@@ -71,7 +72,7 @@ export default function TeamCard({
           </Button>
           <Toast
             {...toast}
-            onDismiss={() => navigation.navigate('TeamListScreen')}
+            onDismiss={() => stateChanger([])}
           />
         </>
       )}
