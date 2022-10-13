@@ -71,7 +71,8 @@ export default function TeamCard({
           <Button mode="contained" onPress={handle_deletion}>
             Desfazer Time
           </Button>
-          <Toast {...toast} onDismiss={() => console.log("a")} />
+          {/* do nothing on toast dismiss */}
+          <Toast {...toast} onDismiss={() => 1+1} /> 
         </>
       )}
     </div>
