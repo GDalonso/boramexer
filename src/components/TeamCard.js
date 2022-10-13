@@ -16,7 +16,7 @@ export default function TeamCard({
   horario,
   doc_UserId,
   doc_id,
-  stateChanger //Number, changing it's value reloads the page
+  stateChanger, // Number, changing it's value reloads the page
 }) {
   // Currently Authenticated User
   const authenticated_UserId = getCurrentUserId()
@@ -29,6 +29,7 @@ export default function TeamCard({
   const handle_deletion = async () => {
     const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
     setToast({ type: 'success', message: result })
+    stateChanger(Math.random())
   }
 
   return (
@@ -70,10 +71,7 @@ export default function TeamCard({
           <Button mode="contained" onPress={handle_deletion}>
             Desfazer Time
           </Button>
-          <Toast
-            {...toast}
-            onDismiss={() => stateChanger(() => Math.random())}
-          />
+          <Toast {...toast} onDismiss={() => setError('')} />
         </>
       )}
     </div>
