@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /times/{timeID} {
+      // Qualquer usuario autenticado pode ler
+      allow read: if request.auth != null;
+      // Só pode alterar dado criado por você mesmo
+      allow write: if request.resource.data.userId == request.auth.uid;
+      // Só pode deletar se for o dono do documento
+      allow delete: if resource.data.userId == request.auth.uid;
+    }
+  }
+}

@@ -1,6 +1,12 @@
 ## Demo
 
-https://react-firebase-login-template.web.app
+Web app url coming soon
+
+## This project uses:
+ - React native to create the app with JS
+ - Expo to manage the mobile compilation
+ - Firebase auth as a authentication provider
+ - Firebase Firestore as a nosql database
 
 ## How to use?
 
@@ -12,9 +18,9 @@ npm install
 yarn install
 ```
 
-2. Go to the [Firebase Console](https://console.firebase.google.com/), 
-2.1. Create a project
-2.2. Create a web app, 
+2. Go to the [Firebase Console](https://console.firebase.google.com/),
+ - Create a project
+ -  Create a web app, 
 ![Create a web app](https://hackultura.s3.amazonaws.com/Public/boramexer_screenshots/1.png)
 get the credentials, replace `FIREBASE_CONFIG` on `src/core/config.js`
 ```js
@@ -29,13 +35,14 @@ export const FIREBASE_CONFIG = {
   databaseURL: 'SEE NEXT STEP',
 }
 ```
-2.3. Create a realtime database, add the uri as the databaseURL key to the configs
-![database url](s3://hackultura/Public/boramexer_screenshots/2.png)
-2.4. Go the the authentication menu and enable "email/password" authentication
-![authentication_email_password](s3://hackultura/Public/boramexer_screenshots/3.png)
+  - Create a realtime database, add the uri as the databaseURL key to the configs
+![database url](https://hackultura.s3.amazonaws.com/Public/boramexer_screenshots/2.png)
+  - Go the the authentication menu and enable "email/password" authentication
+![authentication_email_password](https://hackultura.s3.amazonaws.com/Public/boramexer_screenshots/3.png)
+  - Create a firestore database, keep it closed, then go into the rules tab and paste the rule from `FirebaseSecurityRule`
+  ![Rules tab](https://hackultura.s3.amazonaws.com/Public/boramexer_screenshots/4.png)
 
-
-4. Run project on iOS / Android.
+3. Run project on iOS / Android.
 
 ```js
  npm run ios // npm run android

@@ -6,15 +6,31 @@ import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
 import { logoutUser } from '../api/auth-api'
 
-export default function Dashboard() {
+export default function Dashboard({ navigation }) {
   return (
     <Background>
-      <Logo />
       <Header>Let’s start</Header>
       <Paragraph>
         Your amazing app starts here. Open you favorite code editor and start
         editing this project.
       </Paragraph>
+      <Button mode="outlined" onPress={() => navigation.navigate('TeamScreen')}>
+        Criar Time
+      </Button>
+      <Button
+        mode="outlined"
+        onPress={() => navigation.navigate('TeamListScreen')}
+      >
+        See all teams available
+      </Button>
+      <Button
+        mode="outlined"
+        onPress={() =>
+          navigation.navigate('TeamListScreen', { currentUserTeams: true })
+        }
+      >
+        See your teams
+      </Button>
       <Button mode="outlined" onPress={logoutUser}>
         Logout
       </Button>
