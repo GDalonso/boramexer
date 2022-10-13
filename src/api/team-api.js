@@ -25,7 +25,7 @@ export const setTeam = async ({
       created: firebase.firestore.FieldValue.serverTimestamp(),
     })
     .then((r) => {
-      console.log('escreveu com sucesso' + r)
+      
     })
     .catch((error) => {
       console.error('Error adding document: ', error)

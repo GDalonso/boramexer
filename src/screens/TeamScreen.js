@@ -22,6 +22,7 @@ export default function TeamScreen({ route, navigation }) {
     route.params && route.params.editing ? route.params.horario : ''
   const doc_id =
     route.params && route.params.editing ? route.params.doc_id : undefined
+  const stateChanger = route.params && route.params.editing ? route.params.stateChanger : undefined
   // Initialize all the variables for the data
   const [nome, setNome] = useState({ value: nomeInitialValue, error: '' })
   const [descricao, setDescricao] = useState({
@@ -70,6 +71,9 @@ export default function TeamScreen({ route, navigation }) {
     })
 
     setLoading(false)
+    if (stateChanger){
+      stateChanger(Math.random())
+    }
   }
 
   return (

@@ -25,8 +25,10 @@ export default function TeamCard({
   const navigation = useNavigation()
 
   const [toast, setToast] = useState({ value: '', type: '' })
+  const [blockButton, setBlockButton] = useState(false)
 
   const handle_deletion = async () => {
+    setBlockButton(true) //no need to reenable after since deletion is a one time operation
     const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
     setToast({ type: 'success', message: result })
     stateChanger(Math.random())
@@ -63,16 +65,21 @@ export default function TeamCard({
                 endereco,
                 horario,
                 doc_id,
+                stateChanger, // this raises a warning
               })
             }
           >
             Editar
           </Button>
-          <Button mode="contained" onPress={handle_deletion}>
+          <Button
+            mode="contained"
+            onPress={handle_deletion}
+            disabled={blockButton}
+          >
             Desfazer Time
           </Button>
           {/* do nothing on toast dismiss */}
-          <Toast {...toast} onDismiss={() => 1+1} /> 
+          <Toast {...toast} onDismiss={() => 1 + 1} />
         </>
       )}
     </div>
