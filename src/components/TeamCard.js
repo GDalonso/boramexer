@@ -28,7 +28,9 @@ export default function TeamCard({
   const [blockButton, setBlockButton] = useState(false)
 
   const handle_deletion = async () => {
-    setBlockButton(true) //no need to reenable after since deletion is a one time operation
+    //Disables button while processing
+    //no need to reenable after since deletion is a one time operation
+    setBlockButton(true) 
     const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
     setToast({ type: 'success', message: result })
     stateChanger(Math.random())

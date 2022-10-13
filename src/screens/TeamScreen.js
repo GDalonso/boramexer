@@ -41,10 +41,14 @@ export default function TeamScreen({ route, navigation }) {
   const [loading, setLoading] = useState()
   const [error, setError] = useState()
   const [toast, setToast] = useState({ value: '', type: '' })
+  const [blockButton, setBlockButton] = useState(false)
 
   const create_edit = route.params && route.params.editing ? 'Editar' : 'Criar'
 
   const onTeamCreatePressed = async () => {
+    //Disables button while processing
+    //no need to reenable after since creation is a one time operation
+    setBlockButton(true) 
     // field cannot be empty validators for now
     // actual validators still to be implemented
     const nomeError = nameValidator(nome.value)
@@ -112,7 +116,7 @@ export default function TeamScreen({ route, navigation }) {
         error={!!horario.error}
         errorText={horario.error}
       />
-      <Button mode="outlined" loading={loading} onPress={onTeamCreatePressed}>
+      <Button mode="outlined" loading={loading} onPress={onTeamCreatePressed} disabled={blockButton}>
         {create_edit}
       </Button>
       <Toast
