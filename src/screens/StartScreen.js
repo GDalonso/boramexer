@@ -9,21 +9,21 @@ export default function StartScreen({ navigation }) {
   return (
     <Background>
       <Logo />
-      <Header>Login Template</Header>
+      <Header>BoraMexer</Header>
       <Paragraph>
-        The easiest way to start with your amazing application.
+        O aplicativo para encontrar parceiros de exercícios.
       </Paragraph>
       <Button
         mode="contained"
         onPress={() => navigation.navigate('LoginScreen')}
       >
-        Login
+        Entrar
       </Button>
       <Button
         mode="outlined"
         onPress={() => navigation.navigate('RegisterScreen')}
       >
-        Sign Up
+        Criar Conta
       </Button>
     </Background>
   )
