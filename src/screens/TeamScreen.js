@@ -9,6 +9,7 @@ import { nameValidator } from '../helpers/nameValidator'
 import { setTeam } from '../api/team-api'
 import TextInput from '../components/TextInput'
 import Toast from '../components/Toast'
+import BackButton from '../components/BackButton'
 
 export default function TeamScreen({ route, navigation }) {
   // Sets all the initial values if any existing data was sent
@@ -82,6 +83,7 @@ export default function TeamScreen({ route, navigation }) {
 
   return (
     <Background>
+      <BackButton goBack={navigation.goBack} />
       <Logo />
       <Header>{create_edit} seu time</Header>
       <TextInput
