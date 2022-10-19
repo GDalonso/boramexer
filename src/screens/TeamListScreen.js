@@ -8,6 +8,7 @@ import TeamCard from '../components/TeamCard'
 import { getTeams, getTeamsByUser } from '../api/team-api'
 import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
+import BackButton from '../components/BackButton'
 
 export default function TeamListScreen({ route, navigation }) {
   const [loading, setLoading] = useState(0)
@@ -44,6 +45,7 @@ export default function TeamListScreen({ route, navigation }) {
 
   return (
     <Background>
+      <BackButton goBack={navigation.goBack} />
       <Logo />
       <Header>Times Disponíveis</Header>
       {times.map((time, index) => (
