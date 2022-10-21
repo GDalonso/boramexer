@@ -8,6 +8,7 @@ import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
 import { deleteTeamsByUser } from '../api/team-api'
 import Toast from './Toast'
+import { setEntrada } from '../api/entrada-api'
 
 export default function TeamCard({
   nome,
@@ -26,6 +27,7 @@ export default function TeamCard({
 
   const [toast, setToast] = useState({ value: '', type: '' })
   const [blockButton, setBlockButton] = useState(false)
+  const [blockPedidoButton, setBlockPedidoButton] = useState(false)
 
   const handle_deletion = async () => {
     //Disables button while processing
@@ -33,7 +35,13 @@ export default function TeamCard({
     setBlockButton(true) 
     const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
     setToast({ type: 'success', message: result })
-    stateChanger(Math.random())
+  }
+
+  const handle_pedido_entrada = async (doc_UserId, doc_id) => {
+    //Disables button after requesting participation
+    setBlockPedidoButton(true) 
+    await setEntrada(doc_UserId, doc_id)
+    setToast({ type: 'success', message: "Pedido de entrada enviado com sucesso" })
   }
 
   return (
@@ -49,7 +57,7 @@ export default function TeamCard({
       {doc_UserId != authenticated_UserId && (
         <Button
           mode="contained"
-          onPress={() => console.log('Pedir para participar')}
+          onPress={() => handle_pedido_entrada(doc_UserId, doc_id)}
         >
           Pedir para participar
         </Button>
