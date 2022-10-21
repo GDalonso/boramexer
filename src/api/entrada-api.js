@@ -8,8 +8,6 @@ export const setEntrada = async (
   approvingUser,
   teamId,
 ) => {
-    console.log(approvingUser)
-    console.log(teamId)
 // Initialize Cloud Firestore and get a reference to the service
   const requestingUser = getCurrentUserId()
   const db = firebase.firestore()
@@ -32,8 +30,9 @@ export const setEntrada = async (
 }
 
 export const getEntradasByUser = async (userId) => {
+  // Pedidos feitos por este user
   try {
-    const teams = []
+    const pedidos = []
 
     // Initialize Cloud Firestore and get a reference to the service
     const db = firebase.firestore()
@@ -45,18 +44,18 @@ export const getEntradasByUser = async (userId) => {
       }
     }
     await db
-      .collection('times')
-      .where('userId', '==', userId)
+      .collection('entradas')
+      .where('requestingUser', '==', userId)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          teams.push({ ...doc.data(), doc_id: doc.id })
+          pedidos.push({ ...doc.data(), doc_id: doc.id })
         })
       })
       .catch((error) => {
         console.error('Error fetching documents: ', error)
       })
-    return teams
+    return pedidos
   } catch (error) {
     return {
       error: error.message,
@@ -64,7 +63,8 @@ export const getEntradasByUser = async (userId) => {
   }
 }
 
-export const getEntradasByTeams = async (userId) => {
+export const getEntradasByTeamOwner = async (userId) => {
+    // Pedidos recebidos por este time
     try {
       const teams = []
   

@@ -10,12 +10,11 @@ import { deleteTeamsByUser } from '../api/team-api'
 import Toast from './Toast'
 import { setEntrada } from '../api/entrada-api'
 
-export default function TeamCard({
-  nome,
-  descricao,
-  endereco,
-  horario,
-  doc_UserId,
+export default function PedidoCard({
+  approved,
+  approvingUser,
+  requestingUser,
+  teamId,
   doc_id,
   stateChanger, // Number, changing it's value reloads the page
 }) {
@@ -27,72 +26,78 @@ export default function TeamCard({
 
   const [toast, setToast] = useState({ value: '', type: '' })
   const [blockButton, setBlockButton] = useState(false)
-  const [blockPedidoButton, setBlockPedidoButton] = useState(false)
+  const [blockApprovalButton, setBlockApprovalButton] = useState(false)
+
+  const nomeSolicitante = "TO BE FETCHED"
+  const nomeTime = "TO BE FETCHED"
+  const cadastroPlataforma = "TO BE FETCHED"
+  
+  if (approved){
+    const approvalBtnMessage = "Pedido já aprovado"
+    setBlockApprovalButton(approved)
+  } else {
+    const approvalBtnMessage = "Pedido ainda não aprovado"
+  }
 
   const handle_deletion = async () => {
+    //Delete my own approval request
     //Disables button while processing
     //no need to reenable after since deletion is a one time operation
     setBlockButton(true) 
-    const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
-    setToast({ type: 'success', message: result })
+    // const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
+    // setToast({ type: 'success', message: result })
   }
 
-  const handle_pedido_entrada = async (doc_UserId, doc_id) => {
+  const handle_approval = async (doc_id, approved) => {
+    //Approve or refuse
     //Disables button after requesting participation
-    setBlockPedidoButton(true) 
-    await setEntrada(doc_UserId, doc_id)
+    setBlockApprovalButton(true) 
+    // await setEntrada(doc_UserId, doc_id)
     setToast({ type: 'success', message: "Pedido de entrada enviado com sucesso" })
   }
 
   return (
     <div className="team_card">
-      <Text style={styles.titleText}>{nome}</Text>
+      <Text style={styles.titleText}>{nomeSolicitante}</Text>
       <br />
       <br />
-      <Text style={styles.regularText}> {descricao} </Text>
+      <Text style={styles.regularText}> {nomeTime} </Text>
       <br />
-      <Text style={styles.regularText}> {endereco} </Text>
-      <Text style={styles.regularText}> {horario} </Text>
+      <Text style={styles.regularText}> {cadastroPlataforma} </Text>
 
-      {doc_UserId != authenticated_UserId && (
+      {approvingUser === authenticated_UserId && (
+        <>
         <Button
           mode="contained"
-          onPress={() => handle_pedido_entrada(doc_UserId, doc_id)}
-          disabled={blockPedidoButton}
+          onPress={() => handle_approval(doc_id, true)}
+          disabled={blockApprovalButton}
         >
-          Pedir para participar
+          Aprovar
         </Button>
+        <br />
+        <Button
+          mode="contained"
+          onPress={() => handle_approval(doc_id, false)}
+          disabled={blockApprovalButton}
+        >
+          Reprovar
+        </Button>
+        </>
       )}
 
-      {doc_UserId == authenticated_UserId && (
+      {requestingUser === authenticated_UserId && (
         <>
-          <Button
-            mode="contained"
-            onPress={() =>
-              navigation.navigate('TeamScreen', {
-                editing: true,
-                nome,
-                descricao,
-                endereco,
-                horario,
-                doc_id,
-                stateChanger, // this raises a warning
-              })
-            }
-          >
-            Editar
-          </Button>
           <Button
             mode="contained"
             onPress={handle_deletion}
             disabled={blockButton}
           >
-            Desfazer Time
+            Retirar participação
           </Button>
           {/* do nothing on toast dismiss */}
-          <Toast {...toast} onDismiss={() => 1 + 1} />
         </>
       )}
+    <Toast {...toast} onDismiss={() => 1 + 1} />
     </div>
   )
 }

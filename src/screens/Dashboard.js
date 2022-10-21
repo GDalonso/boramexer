@@ -21,7 +21,7 @@ export default function Dashboard({ navigation }) {
         mode="outlined"
         onPress={() => navigation.navigate('TeamListScreen')}
       >
-        See all teams available
+        Ver todos os times disponíveis
       </Button>
       <Button
         mode="outlined"
@@ -29,7 +29,23 @@ export default function Dashboard({ navigation }) {
           navigation.navigate('TeamListScreen', { currentUserTeams: true })
         }
       >
-        See your teams
+        Ver meus times
+      </Button>
+      <Button
+        mode="outlined"
+        onPress={() =>
+          navigation.navigate('PedidosListScreen', { currentUserPedidos: true })
+        }
+      >
+        Ver pedidos de entrada que eu fiz
+      </Button>
+      <Button
+        mode="outlined"
+        onPress={() =>
+          navigation.navigate('PedidosListScreen', { currentUserPedidos: false })
+        }
+      >
+        Ver pedidos de participação em meus times
       </Button>
       <Button mode="outlined" onPress={logoutUser}>
         Logout
