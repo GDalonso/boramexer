@@ -87,7 +87,7 @@ export default function PedidoCard({
       <br />
       <Text style={styles.titleText}> {nomeTime} </Text>
       <br />
-      <Text style={styles.regularText}> {cadastroPlataforma} </Text>
+      {/* <Text style={styles.regularText}> {cadastroPlataforma} </Text> */}
 
       {approvingUser === authenticated_UserId && (
         <>
