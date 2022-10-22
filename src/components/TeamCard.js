@@ -9,6 +9,7 @@ import { getCurrentUserId } from '../api/auth-api'
 import { deleteTeamsByUser } from '../api/team-api'
 import Toast from './Toast'
 import { setEntrada } from '../api/entrada-api'
+import { getCurrentUserEmail } from '../api/auth-api'
 
 export default function TeamCard({
   nome,

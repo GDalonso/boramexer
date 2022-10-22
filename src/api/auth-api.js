@@ -55,3 +55,14 @@ export const getCurrentUserId = () => {
     }
   }
 }
+
+export const getCurrentUserEmail = () => {
+  try {
+    const user = firebase.auth().currentUser
+    return user.email
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
+}

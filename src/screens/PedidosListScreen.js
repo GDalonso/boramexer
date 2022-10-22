@@ -35,7 +35,6 @@ export default function PedidosListScreen({ route, navigation }) {
         throw e
       })
   }, [loading])
-  
   // Loading slider while DB is being queryed
   if (!pedidos.length > 0) {
     return (
@@ -59,6 +58,7 @@ export default function PedidosListScreen({ route, navigation }) {
             teamId={pedido.teamId}
             doc_id={pedido.doc_id}
             stateChanger={setLoading}
+            requestingUserEmail={pedido.requestingUserEmail}
           />
         </div>
       ))}

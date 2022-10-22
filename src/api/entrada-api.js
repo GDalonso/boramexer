@@ -3,6 +3,7 @@ import 'firebase/database'
 import 'firebase/firestore'
 import { getCurrentUserId } from './auth-api'
 import { resultFeedbackAlert } from '../helpers/Alert'
+import { getCurrentUserEmail } from './auth-api'
 
 export const setEntrada = async (
   approvingUser,
@@ -18,6 +19,7 @@ export const setEntrada = async (
       approvingUser,
       requestingUser,
       approved: false,
+      requestingUserEmail: getCurrentUserEmail(),
       created: firebase.firestore.FieldValue.serverTimestamp(),
     })
     .then((r) => {

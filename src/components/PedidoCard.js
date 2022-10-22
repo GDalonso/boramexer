@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { Text } from 'react-native-paper'
+import { Text, ActivityIndicator } from 'react-native-paper'
 import './team_card.css'
 import { useNavigation } from '@react-navigation/native'
 import Button from './Button'
@@ -10,7 +10,6 @@ import { deleteTeamsByUser, getTeamNameById } from '../api/team-api'
 import Toast from './Toast'
 import { setEntrada } from '../api/entrada-api'
 import Background from './Background'
-import { ActivityIndicator } from 'react-native-paper'
 
 export default function PedidoCard({
   approved,
@@ -19,6 +18,7 @@ export default function PedidoCard({
   teamId,
   doc_id,
   stateChanger, // Number, changing it's value reloads the page
+  requestingUserEmail,
 }) {
   // Currently Authenticated User
   const authenticated_UserId = getCurrentUserId()
@@ -30,45 +30,50 @@ export default function PedidoCard({
   const [blockButton, setBlockButton] = useState(false)
   const [blockApprovalButton, setBlockApprovalButton] = useState(false)
 
-  const [nomeSolicitante, setNomeSolicitante] = useState("carregando")
-  const [nomeTime, setNomeTime] = useState("carregando")
-  const [cadastroPlataforma, setcadastroPlataforma] = useState("carregando")
+  const [nomeSolicitante, setNomeSolicitante] = useState(requestingUserEmail)
+  const [nomeTime, setNomeTime] = useState('carregando')
+  const [cadastroPlataforma, setcadastroPlataforma] = useState('carregando')
 
   const get_readable_data = async () => {
-    const nmSolicitante = await getTeamNameById(teamId)
-    console.log(nmSolicitante)
-    setNomeSolicitante(nmSolicitante)
-    setNomeTime("TO BE FETCHED")
-    setcadastroPlataforma("TO BE FETCHED")
+    const nmTime = await getTeamNameById(teamId)
+    setNomeTime(nmTime)
+    setcadastroPlataforma('TO BE FETCHED')
   }
   get_readable_data()
 
-  if (approved){
-    const approvalBtnMessage = "Pedido já aprovado"
+  if (approved) {
+    const approvalBtnMessage = 'Pedido já aprovado'
     setBlockApprovalButton(approved)
   } else {
-    const approvalBtnMessage = "Pedido ainda não aprovado"
+    const approvalBtnMessage = 'Pedido ainda não aprovado'
   }
 
   const handle_deletion = async () => {
-    //Delete my own approval request
-    //Disables button while processing
-    //no need to reenable after since deletion is a one time operation
-    setBlockButton(true) 
+    // Delete my own approval request
+    // Disables button while processing
+    // no need to reenable after since deletion is a one time operation
+    setBlockButton(true)
     // const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
     // setToast({ type: 'success', message: result })
   }
 
   const handle_approval = async (doc_id, approved) => {
-    //Approve or refuse
-    //Disables button after requesting participation
-    setBlockApprovalButton(true) 
+    // Approve or refuse
+    // Disables button after requesting participation
+    setBlockApprovalButton(true)
     // await setEntrada(doc_UserId, doc_id)
-    setToast({ type: 'success', message: "Pedido de entrada enviado com sucesso" })
+    setToast({
+      type: 'success',
+      message: 'Pedido de entrada enviado com sucesso',
+    })
   }
   // Loading slider while DB is being queryed
-  if (nomeSolicitante==="carregando" || nomeTime==="carregando" || cadastroPlataforma==="carregando") {
-    return(
+  if (
+    nomeSolicitante === 'carregando' ||
+    nomeTime === 'carregando' ||
+    cadastroPlataforma === 'carregando'
+  ) {
+    return (
       <Background>
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </Background>
@@ -80,27 +85,27 @@ export default function PedidoCard({
       <Text style={styles.titleText}>{nomeSolicitante}</Text>
       <br />
       <br />
-      <Text style={styles.regularText}> {nomeTime} </Text>
+      <Text style={styles.titleText}> {nomeTime} </Text>
       <br />
       <Text style={styles.regularText}> {cadastroPlataforma} </Text>
 
       {approvingUser === authenticated_UserId && (
         <>
-        <Button
-          mode="contained"
-          onPress={() => handle_approval(doc_id, true)}
-          disabled={blockApprovalButton}
-        >
-          Aprovar
-        </Button>
-        <br />
-        <Button
-          mode="contained"
-          onPress={() => handle_approval(doc_id, false)}
-          disabled={blockApprovalButton}
-        >
-          Reprovar
-        </Button>
+          <Button
+            mode="contained"
+            onPress={() => handle_approval(doc_id, true)}
+            disabled={blockApprovalButton}
+          >
+            Aprovar
+          </Button>
+          <br />
+          <Button
+            mode="contained"
+            onPress={() => handle_approval(doc_id, false)}
+            disabled={blockApprovalButton}
+          >
+            Reprovar
+          </Button>
         </>
       )}
 
@@ -116,7 +121,7 @@ export default function PedidoCard({
           {/* do nothing on toast dismiss */}
         </>
       )}
-    <Toast {...toast} onDismiss={() => 1 + 1} />
+      <Toast {...toast} onDismiss={() => 1 + 1} />
     </div>
   )
 }
