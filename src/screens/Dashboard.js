@@ -34,7 +34,7 @@ export default function Dashboard({ navigation }) {
       <Button
         mode="outlined"
         onPress={() =>
-          navigation.navigate('PedidosListScreen', { currentUserPedidos: true })
+          navigation.navigate('PedidosListScreen', { toApprove: false })
         }
       >
         Meus pedidos de entrada
@@ -42,7 +42,7 @@ export default function Dashboard({ navigation }) {
       <Button
         mode="outlined"
         onPress={() =>
-          navigation.navigate('PedidosListScreen', { currentUserPedidos: false })
+          navigation.navigate('PedidosListScreen', { toApprove: true })
         }
       >
         Pedidos aguardando minha aprovação

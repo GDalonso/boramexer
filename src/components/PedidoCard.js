@@ -41,12 +41,12 @@ export default function PedidoCard({
   }
   get_readable_data()
 
-  if (approved) {
-    const approvalBtnMessage = 'Pedido já aprovado'
-    setBlockApprovalButton(approved)
-  } else {
-    const approvalBtnMessage = 'Pedido ainda não aprovado'
-  }
+  // if (approved) {
+  //   const approvalBtnMessage = 'Pedido já aprovado'
+  //   setBlockApprovalButton(approved)
+  // } else {
+  //   const approvalBtnMessage = 'Pedido ainda não aprovado'
+  // }
 
   const handle_deletion = async () => {
     // Delete my own approval request

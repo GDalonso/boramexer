@@ -66,38 +66,38 @@ export const getEntradasByUser = async (userId) => {
 }
 
 export const getEntradasByTeamOwner = async (userId) => {
-    // Pedidos recebidos por este time
-    try {
-      const teams = []
-  
-      // Initialize Cloud Firestore and get a reference to the service
-      const db = firebase.firestore()
-  
-      if (!userId) {
-        console.log('Provide user id')
-        return {
-          error: 'Provide an user id',
-        }
-      }
-      await db
-        .collection('times')
-        .where('userId', '==', userId)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            teams.push({ ...doc.data(), doc_id: doc.id })
-          })
-        })
-        .catch((error) => {
-          console.error('Error fetching documents: ', error)
-        })
-      return teams
-    } catch (error) {
+  // Pedidos feitos por este user
+  try {
+    const pedidos = []
+
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = firebase.firestore()
+
+    if (!userId) {
+      console.log('Provide user id')
       return {
-        error: error.message,
+        error: 'Provide an user id',
       }
     }
+    await db
+      .collection('entradas')
+      .where('approvingUser', '==', userId)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          pedidos.push({ ...doc.data(), doc_id: doc.id })
+        })
+      })
+      .catch((error) => {
+        console.error('Error fetching documents: ', error)
+      })
+    return pedidos
+  } catch (error) {
+    return {
+      error: error.message,
+    }
   }
+}
 
 export const deleteEntradaByUser = async (userId, doc_id) => {
   try {
