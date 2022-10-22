@@ -9,6 +9,7 @@ import { getCurrentUserId } from '../api/auth-api'
 import BackButton from '../components/BackButton'
 import { getEntradasByUser } from '../api/entrada-api'
 import PedidoCard from '../components/PedidoCard'
+import { getTeamNameById } from '../api/team-api'
 
 export default function PedidosListScreen({ route, navigation }) {
   const [loading, setLoading] = useState(0)
@@ -34,7 +35,7 @@ export default function PedidosListScreen({ route, navigation }) {
         throw e
       })
   }, [loading])
-  console.log(pedidos)
+  
   // Loading slider while DB is being queryed
   if (!pedidos.length > 0) {
     return (

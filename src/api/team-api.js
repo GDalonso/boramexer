@@ -14,7 +14,8 @@ export const setTeam = async ({
   // Initialize Cloud Firestore and get a reference to the service
   const userId = getCurrentUserId()
   const db = firebase.firestore()
-  await db.collection('times')
+  await db
+    .collection('times')
     .doc(doc_id) // If doc id is undefined creates a new doc
     .set({
       nome,
@@ -24,9 +25,7 @@ export const setTeam = async ({
       userId,
       created: firebase.firestore.FieldValue.serverTimestamp(),
     })
-    .then((r) => {
-      
-    })
+    .then((r) => {})
     .catch((error) => {
       console.error('Error adding document: ', error)
       throw error
@@ -86,6 +85,40 @@ export const getTeamsByUser = async (userId) => {
         console.error('Error fetching documents: ', error)
       })
     return teams
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
+}
+
+export const getTeamNameById = async (teamId) => {
+  try {
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = firebase.firestore()
+    var nome = ""
+    if (!teamId) {
+      console.log('Provide Team id')
+      return {
+        error: 'Provide an Team id',
+      }
+    }
+    const docref = db.collection('times').doc(teamId)
+    await docref
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const data = doc.data()
+          nome = data.nome
+        } else {
+          // doc.data() will be undefined in this case
+          console.log('No such document!')
+        }
+      })
+      .catch((error) => {
+        console.log('Error getting document:', error)
+      })
+    return nome
   } catch (error) {
     return {
       error: error.message,

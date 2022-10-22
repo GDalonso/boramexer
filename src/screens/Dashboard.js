@@ -37,7 +37,7 @@ export default function Dashboard({ navigation }) {
           navigation.navigate('PedidosListScreen', { currentUserPedidos: true })
         }
       >
-        Ver pedidos de entrada que eu fiz
+        Meus pedidos de entrada
       </Button>
       <Button
         mode="outlined"
@@ -45,7 +45,7 @@ export default function Dashboard({ navigation }) {
           navigation.navigate('PedidosListScreen', { currentUserPedidos: false })
         }
       >
-        Ver pedidos de participação em meus times
+        Pedidos aguardando minha aprovação
       </Button>
       <Button mode="outlined" onPress={logoutUser}>
         Logout

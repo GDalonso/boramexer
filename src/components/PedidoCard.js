@@ -6,9 +6,11 @@ import { useNavigation } from '@react-navigation/native'
 import Button from './Button'
 import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
-import { deleteTeamsByUser } from '../api/team-api'
+import { deleteTeamsByUser, getTeamNameById } from '../api/team-api'
 import Toast from './Toast'
 import { setEntrada } from '../api/entrada-api'
+import Background from './Background'
+import { ActivityIndicator } from 'react-native-paper'
 
 export default function PedidoCard({
   approved,
@@ -28,10 +30,19 @@ export default function PedidoCard({
   const [blockButton, setBlockButton] = useState(false)
   const [blockApprovalButton, setBlockApprovalButton] = useState(false)
 
-  const nomeSolicitante = "TO BE FETCHED"
-  const nomeTime = "TO BE FETCHED"
-  const cadastroPlataforma = "TO BE FETCHED"
-  
+  const [nomeSolicitante, setNomeSolicitante] = useState("carregando")
+  const [nomeTime, setNomeTime] = useState("carregando")
+  const [cadastroPlataforma, setcadastroPlataforma] = useState("carregando")
+
+  const get_readable_data = async () => {
+    const nmSolicitante = await getTeamNameById(teamId)
+    console.log(nmSolicitante)
+    setNomeSolicitante(nmSolicitante)
+    setNomeTime("TO BE FETCHED")
+    setcadastroPlataforma("TO BE FETCHED")
+  }
+  get_readable_data()
+
   if (approved){
     const approvalBtnMessage = "Pedido já aprovado"
     setBlockApprovalButton(approved)
@@ -54,6 +65,14 @@ export default function PedidoCard({
     setBlockApprovalButton(true) 
     // await setEntrada(doc_UserId, doc_id)
     setToast({ type: 'success', message: "Pedido de entrada enviado com sucesso" })
+  }
+  // Loading slider while DB is being queryed
+  if (nomeSolicitante==="carregando" || nomeTime==="carregando" || cadastroPlataforma==="carregando") {
+    return(
+      <Background>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </Background>
+    )
   }
 
   return (
