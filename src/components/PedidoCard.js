@@ -6,10 +6,11 @@ import { useNavigation } from '@react-navigation/native'
 import Button from './Button'
 import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
-import { deleteTeamsByUser, getTeamNameById } from '../api/team-api'
+import { getTeamNameById } from '../api/team-api'
 import Toast from './Toast'
 import { setEntrada } from '../api/entrada-api'
 import Background from './Background'
+import { deleteEntradaByUser } from '../api/entrada-api'
 
 export default function PedidoCard({
   approved,
@@ -48,13 +49,16 @@ export default function PedidoCard({
   //   const approvalBtnMessage = 'Pedido ainda não aprovado'
   // }
 
-  const handle_deletion = async () => {
+  const handle_deletion = async (doc_id, requestingUser) => {
     // Delete my own approval request
     // Disables button while processing
     // no need to reenable after since deletion is a one time operation
     setBlockButton(true)
-    // const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
-    // setToast({ type: 'success', message: result })
+    const result = await deleteEntradaByUser(doc_id, requestingUser)
+    if (stateChanger){
+      stateChanger(Math.random())
+    }
+    setToast({ type: 'success', message: result })
   }
 
   const handle_approval = async (doc_id, approved) => {
@@ -62,6 +66,9 @@ export default function PedidoCard({
     // Disables button after requesting participation
     setBlockApprovalButton(true)
     // await setEntrada(doc_UserId, doc_id)
+    if (stateChanger){
+      stateChanger(Math.random())
+    }
     setToast({
       type: 'success',
       message: 'Pedido de entrada enviado com sucesso',
@@ -113,7 +120,7 @@ export default function PedidoCard({
         <>
           <Button
             mode="contained"
-            onPress={handle_deletion}
+            onPress={() => handle_deletion(doc_id, requestingUser)}
             disabled={blockButton}
           >
             Retirar participação

@@ -99,28 +99,27 @@ export const getEntradasByTeamOwner = async (userId) => {
   }
 }
 
-export const deleteEntradaByUser = async (userId, doc_id) => {
+export const deleteEntradaByUser = async (pedidoId, requestingUser) => {
   try {
     // Initialize Cloud Firestore and get a reference to the service
     const db = firebase.firestore()
     const currently_authenticated_userId = getCurrentUserId()
-    console.log('deleting: ' + doc_id)
 
-    if (!userId) {
-      console.log('Provide user id')
+    if (!pedidoId) {
+      console.log('Provide a pedido id')
       return {
-        error: 'Provide an user id',
+        error: 'Provide a pedido id',
       }
     }
-    if (userId != currently_authenticated_userId) {
+    if (requestingUser !== currently_authenticated_userId) {
       console.log('cant delete other peoples teams')
       return {
         error: 'cant delete other peoples teams',
       }
     }
     await db
-      .collection('times')
-      .doc(doc_id)
+      .collection('entradas')
+      .doc(pedidoId)
       .delete()
       .then()
       .catch((error) => {
