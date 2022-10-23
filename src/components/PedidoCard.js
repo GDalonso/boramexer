@@ -34,15 +34,19 @@ export default function PedidoCard({
 
   const [nomeSolicitante, setNomeSolicitante] = useState(requestingUserEmail)
   const [nomeTime, setNomeTime] = useState('carregando')
-  const [cadastroPlataforma, setcadastroPlataforma] = useState('carregando')
 
   const get_readable_data = async () => {
     const nmTime = await getTeamNameById(teamId)
     setNomeTime(nmTime)
+    set_button_message()
+  }
+  
+  const set_button_message = async () => {
     if (approved) {
       setApprovalBtnMessage("Reprovar")
+    } else {
+      setApprovalBtnMessage("Aprovar")
     }
-    setcadastroPlataforma('TO BE FETCHED')
   }
   get_readable_data()
 
@@ -75,8 +79,7 @@ export default function PedidoCard({
   // Loading slider while DB is being queryed
   if (
     nomeSolicitante === 'carregando' ||
-    nomeTime === 'carregando' ||
-    cadastroPlataforma === 'carregando'
+    nomeTime === 'carregando'
   ) {
     return (
       <Background>
