@@ -92,9 +92,10 @@ export default function PedidoCard({
       <Text style={styles.titleText}>{nomeSolicitante}</Text>
       <br />
       <br />
-      <Text style={styles.titleText}> {nomeTime} </Text>
+      <Text style={styles.titleText}>{nomeTime}</Text>
       <br />
-      {/* <Text style={styles.regularText}> {cadastroPlataforma} </Text> */}
+      <br />
+      <Text style={styles.titleText}>Aprovado? {approved? " Sim ": " Não "}</Text>
 
       {approvingUser === authenticated_UserId && (
         <>
