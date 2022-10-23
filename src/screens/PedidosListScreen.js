@@ -23,6 +23,13 @@ export default function PedidosListScreen({ route, navigation }) {
   // Define if itll show all teams or only the current user ones
   const query_function =
     route.params && route.params.toApprove ? getEntradasByTeamOwner: getEntradasByUser
+  const process_header_message = async () => {
+    if (route.params && route.params.toApprove) {
+      setHeaderMessage("Pedidos aguardando minha aprovação")
+    } else {
+      setHeaderMessage("Status de pedidos que eu fiz")
+      }
+  }
 
   // fetch pedidos from the database
   useEffect(() => {
@@ -30,6 +37,7 @@ export default function PedidosListScreen({ route, navigation }) {
       .then((r) => {
         setPedidos(r)
         setFetch(false)
+        process_header_message()
         if (r.length == 0){
           setHeaderMessage("Nenhum pedido aguardando aprovação")
         }
