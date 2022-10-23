@@ -96,7 +96,7 @@ export const getTeamNameById = async (teamId) => {
   try {
     // Initialize Cloud Firestore and get a reference to the service
     const db = firebase.firestore()
-    var nome = ""
+    let nome = ""
     if (!teamId) {
       console.log('Provide Team id')
       return {

@@ -100,6 +100,46 @@ export const getEntradasByTeamOwner = async (userId) => {
   }
 }
 
+export const getIdEntradasByRequestingUserAndTeam = async (requestingUserId, teamId) => {
+  // Pedidos feitos por este user para um time x
+  // Só retorna id, a ideia é somente saber se existe o pedido
+  try {
+    let pedidoId
+
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = firebase.firestore()
+
+    if (!requestingUserId) {
+      console.log('Provide user id')
+      return {
+        error: 'Provide an user id',
+      }
+    }
+    console.log("Requesting user: "+requestingUserId)
+    console.log("Team id: " + teamId)
+    await db
+      .collection('entradas')
+      .where('requestingUser', '==', requestingUserId)
+      .where('teamId', '==', teamId)
+      .limit(1)
+      .get()
+      .then(
+        (querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            pedidoId = doc.id
+          })
+        })
+      .catch((error) => {
+        console.error('Error fetching documents: ', error)
+      })
+    return pedidoId
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
+}
+
 export const deleteEntradaByUser = async (pedidoId, requestingUser) => {
   try {
     // Initialize Cloud Firestore and get a reference to the service
