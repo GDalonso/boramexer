@@ -14,6 +14,7 @@ import {
   Dashboard,
   TeamScreen,
   TeamListScreen,
+  PedidosListScreen
 } from './src/screens'
 import { FIREBASE_CONFIG } from './src/core/config'
 
@@ -46,6 +47,7 @@ export default function App() {
           />
           <Stack.Screen name="TeamScreen" component={TeamScreen} />
           <Stack.Screen name="TeamListScreen" component={TeamListScreen} />
+          <Stack.Screen name="PedidosListScreen" component={PedidosListScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

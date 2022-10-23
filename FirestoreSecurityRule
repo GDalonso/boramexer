@@ -9,5 +9,15 @@ service cloud.firestore {
       // Só pode deletar se for o dono do documento
       allow delete: if resource.data.userId == request.auth.uid;
     }
+    match /entradas/{entradaID} {
+      // Qualquer usuario autenticado pode ler
+      allow read: if request.auth != null;
+      // Só pode alterar um pedido se você criou ou é o dono do time que o recebeu
+      allow write: if request.resource.data.approvingUser == request.auth.uid;
+      allow write: if request.resource.data.requestingUser == request.auth.uid;
+      // Só pode deletar se for o dono do documento ou do time
+      allow delete: if resource.data.requestingUser == request.auth.uid;
+      allow delete: if resource.data.approvingUser  == request.auth.uid;
+    }
   }
 }

@@ -1,27 +1,27 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/firestore'
-import { getCurrentUserId } from './auth-api'
+import { getCurrentUserId, getCurrentUserEmail } from './auth-api'
 
-export const setTeam = async ({
-  nome,
-  descricao,
-  endereco,
-  horario,
-  doc_id = undefined,
-}) => {
+export const setEntrada = async (
+  approvingUser,
+  teamId,
+  approved = false,
+  requestingUserId = null
+) => {
   // Initialize Cloud Firestore and get a reference to the service
-  const userId = getCurrentUserId()
+
+  const requestingUser = requestingUserId || getCurrentUserId()
   const db = firebase.firestore()
   await db
-    .collection('times')
-    .doc(doc_id) // If doc id is undefined creates a new doc
+    .collection('entradas')
+    .doc(teamId) // If doc id is undefined creates a new doc
     .set({
-      nome,
-      descricao,
-      endereco,
-      horario,
-      userId,
+      teamId,
+      approvingUser,
+      requestingUser,
+      approved,
+      requestingUserEmail: getCurrentUserEmail(),
       created: firebase.firestore.FieldValue.serverTimestamp(),
     })
     .then((r) => {})
@@ -31,36 +31,10 @@ export const setTeam = async ({
     })
 }
 
-export const getTeams = async (_ = null) => {
+export const getEntradasByUser = async (userId) => {
+  // Pedidos feitos por este user
   try {
-    const teams = []
-
-    // Initialize Cloud Firestore and get a reference to the service
-    const db = firebase.firestore()
-
-    const collection_reference = db.collection('times')
-
-    await collection_reference
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          teams.push({ ...doc.data(), doc_id: doc.id })
-        })
-      })
-      .catch((error) => {
-        console.error('Error fetching documents: ', error)
-      })
-    return teams
-  } catch (error) {
-    return {
-      error: error.message,
-    }
-  }
-}
-
-export const getTeamsByUser = async (userId) => {
-  try {
-    const teams = []
+    const pedidos = []
 
     // Initialize Cloud Firestore and get a reference to the service
     const db = firebase.firestore()
@@ -72,18 +46,18 @@ export const getTeamsByUser = async (userId) => {
       }
     }
     await db
-      .collection('times')
-      .where('userId', '==', userId)
+      .collection('entradas')
+      .where('requestingUser', '==', userId)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          teams.push({ ...doc.data(), doc_id: doc.id })
+          pedidos.push({ ...doc.data(), doc_id: doc.id })
         })
       })
       .catch((error) => {
         console.error('Error fetching documents: ', error)
       })
-    return teams
+    return pedidos
   } catch (error) {
     return {
       error: error.message,
@@ -91,33 +65,33 @@ export const getTeamsByUser = async (userId) => {
   }
 }
 
-export const getTeamNameById = async (teamId) => {
+export const getEntradasByTeamOwner = async (userId) => {
+  // Pedidos feitos por este user
   try {
+    const pedidos = []
+
     // Initialize Cloud Firestore and get a reference to the service
     const db = firebase.firestore()
-    let nome = ""
-    if (!teamId) {
-      console.log('Provide Team id')
+
+    if (!userId) {
+      console.log('Provide user id')
       return {
-        error: 'Provide an Team id',
+        error: 'Provide an user id',
       }
     }
-    const docref = db.collection('times').doc(teamId)
-    await docref
+    await db
+      .collection('entradas')
+      .where('approvingUser', '==', userId)
       .get()
-      .then((doc) => {
-        if (doc.exists) {
-          const data = doc.data()
-          nome = data.nome
-        } else {
-          // doc.data() will be undefined in this case
-          console.log('No such document!')
-        }
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          pedidos.push({ ...doc.data(), doc_id: doc.id })
+        })
       })
       .catch((error) => {
-        console.log('Error getting document:', error)
+        console.error('Error fetching documents: ', error)
       })
-    return nome
+    return pedidos
   } catch (error) {
     return {
       error: error.message,
@@ -125,28 +99,62 @@ export const getTeamNameById = async (teamId) => {
   }
 }
 
-export const deleteTeamsByUser = async (userId, doc_id) => {
+export const getIdEntradasByRequestingUserAndTeam = async (
+  requestingUserId,
+  teamId
+) => {
+  // Pedidos feitos por este user para um time x
+  // Só retorna id, a ideia é somente saber se existe o pedido
+  try {
+    let pedidoId
+
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = firebase.firestore()
+
+    if (!requestingUserId) {
+      console.log('Provide user id')
+      return {
+        error: 'Provide an user id',
+      }
+    }
+    await db
+      .collection('entradas')
+      .where('requestingUser', '==', requestingUserId)
+      .where('teamId', '==', teamId)
+      .limit(1)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          pedidoId = doc.id
+        })
+      })
+      .catch((error) => {
+        console.error('Error fetching documents: ', error)
+      })
+    return pedidoId
+  } catch (error) {
+    return {
+      error: error.message,
+    }
+  }
+}
+
+export const deleteEntradaByUser = async (pedidoId, requestingUser) => {
   try {
     // Initialize Cloud Firestore and get a reference to the service
     const db = firebase.firestore()
     const currently_authenticated_userId = getCurrentUserId()
-    console.log('deleting: ' + doc_id)
 
-    if (!userId) {
-      console.log('Provide user id')
+    if (!pedidoId) {
+      console.log('Provide a pedido id')
       return {
-        error: 'Provide an user id',
+        error: 'Provide a pedido id',
       }
     }
-    if (userId != currently_authenticated_userId) {
-      console.log('cant delete other peoples teams')
-      return {
-        error: 'cant delete other peoples teams',
-      }
-    }
+
     await db
-      .collection('times')
-      .doc(doc_id)
+      .collection('entradas')
+      .doc(pedidoId)
       .delete()
       .then()
       .catch((error) => {
