@@ -1,30 +1,31 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/firestore'
-import { getCurrentUserId } from './auth-api'
+import { getCurrentUserId, getCurrentUserEmail } from './auth-api'
 import { resultFeedbackAlert } from '../helpers/Alert'
-import { getCurrentUserEmail } from './auth-api'
 
 export const setEntrada = async (
   approvingUser,
   teamId,
+  approved = false,
+  requestingUserId = null
 ) => {
-// Initialize Cloud Firestore and get a reference to the service
-  const requestingUser = getCurrentUserId()
+  // Initialize Cloud Firestore and get a reference to the service
+
+  const requestingUser = requestingUserId || getCurrentUserId()
   const db = firebase.firestore()
-  await db.collection('entradas')
+  await db
+    .collection('entradas')
     .doc(teamId) // If doc id is undefined creates a new doc
     .set({
       teamId,
       approvingUser,
       requestingUser,
-      approved: false,
+      approved,
       requestingUserEmail: getCurrentUserEmail(),
       created: firebase.firestore.FieldValue.serverTimestamp(),
     })
-    .then((r) => {
-      
-    })
+    .then((r) => {})
     .catch((error) => {
       console.error('Error adding document: ', error)
       throw error

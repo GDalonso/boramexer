@@ -30,6 +30,7 @@ export default function PedidoCard({
   const [toast, setToast] = useState({ value: '', type: '' })
   const [blockButton, setBlockButton] = useState(false)
   const [blockApprovalButton, setBlockApprovalButton] = useState(false)
+  const [approvalBtnMessage, setApprovalBtnMessage] = useState("Aprovar")
 
   const [nomeSolicitante, setNomeSolicitante] = useState(requestingUserEmail)
   const [nomeTime, setNomeTime] = useState('carregando')
@@ -38,16 +39,12 @@ export default function PedidoCard({
   const get_readable_data = async () => {
     const nmTime = await getTeamNameById(teamId)
     setNomeTime(nmTime)
+    if (approved) {
+      setApprovalBtnMessage("Reprovar")
+    }
     setcadastroPlataforma('TO BE FETCHED')
   }
   get_readable_data()
-
-  // if (approved) {
-  //   const approvalBtnMessage = 'Pedido já aprovado'
-  //   setBlockApprovalButton(approved)
-  // } else {
-  //   const approvalBtnMessage = 'Pedido ainda não aprovado'
-  // }
 
   const handle_deletion = async (doc_id, requestingUser) => {
     // Delete my own approval request
@@ -61,14 +58,15 @@ export default function PedidoCard({
     setToast({ type: 'success', message: result })
   }
 
-  const handle_approval = async (doc_id, approved) => {
-    // Approve or refuse
+  const handle_approval = async (doc_id, approved, requestingUser) => {
+    // Approve or refuse based on current status
     // Disables button after requesting participation
     setBlockApprovalButton(true)
-    // await setEntrada(doc_UserId, doc_id)
-    if (stateChanger){
+    await setEntrada(approvingUser=authenticated_UserId, teamId=doc_id, approved=!approved, requestingUser=requestingUser)
+    if (stateChanger) {
       stateChanger(Math.random())
     }
+    setBlockApprovalButton(false)
     setToast({
       type: 'success',
       message: 'Pedido de entrada enviado com sucesso',
@@ -101,12 +99,11 @@ export default function PedidoCard({
         <>
           <Button
             mode="contained"
-            onPress={() => handle_approval(doc_id, true)}
+            onPress={() => handle_approval(doc_id, approved, requestingUser)}
             disabled={blockApprovalButton}
           >
-            Aprovar
+            {approvalBtnMessage}
           </Button>
-          <br />
           <Button
             mode="contained"
             onPress={() => handle_deletion(doc_id, requestingUser)}
