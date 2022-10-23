@@ -2,7 +2,6 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/firestore'
 import { getCurrentUserId, getCurrentUserEmail } from './auth-api'
-import { resultFeedbackAlert } from '../helpers/Alert'
 
 export const setEntrada = async (
   approvingUser,
@@ -100,7 +99,10 @@ export const getEntradasByTeamOwner = async (userId) => {
   }
 }
 
-export const getIdEntradasByRequestingUserAndTeam = async (requestingUserId, teamId) => {
+export const getIdEntradasByRequestingUserAndTeam = async (
+  requestingUserId,
+  teamId
+) => {
   // Pedidos feitos por este user para um time x
   // Só retorna id, a ideia é somente saber se existe o pedido
   try {
@@ -115,20 +117,17 @@ export const getIdEntradasByRequestingUserAndTeam = async (requestingUserId, tea
         error: 'Provide an user id',
       }
     }
-    console.log("Requesting user: "+requestingUserId)
-    console.log("Team id: " + teamId)
     await db
       .collection('entradas')
       .where('requestingUser', '==', requestingUserId)
       .where('teamId', '==', teamId)
       .limit(1)
       .get()
-      .then(
-        (querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            pedidoId = doc.id
-          })
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          pedidoId = doc.id
         })
+      })
       .catch((error) => {
         console.error('Error fetching documents: ', error)
       })

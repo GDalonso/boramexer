@@ -2,7 +2,6 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/firestore'
 import { getCurrentUserId } from './auth-api'
-import { resultFeedbackAlert } from '../helpers/Alert'
 
 export const setTeam = async ({
   nome,
