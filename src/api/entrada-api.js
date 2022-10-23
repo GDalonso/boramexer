@@ -111,12 +111,7 @@ export const deleteEntradaByUser = async (pedidoId, requestingUser) => {
         error: 'Provide a pedido id',
       }
     }
-    if (requestingUser !== currently_authenticated_userId) {
-      console.log('cant delete other peoples teams')
-      return {
-        error: 'cant delete other peoples teams',
-      }
-    }
+
     await db
       .collection('entradas')
       .doc(pedidoId)

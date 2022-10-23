@@ -109,10 +109,10 @@ export default function PedidoCard({
           <br />
           <Button
             mode="contained"
-            onPress={() => handle_approval(doc_id, false)}
+            onPress={() => handle_deletion(doc_id, requestingUser)}
             disabled={blockApprovalButton}
           >
-            Reprovar
+            Ignorar
           </Button>
         </>
       )}
