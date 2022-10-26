@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Firebase Login Template",
-    "slug": "firebase-login-template",
+    "name": "BoraMexer",
+    "slug": "boramexer",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +11,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/2962363d-b496-45e6-97f7-a4835bb4873a"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -23,10 +24,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.boramezer"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2962363d-b496-45e6-97f7-a4835bb4873a"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

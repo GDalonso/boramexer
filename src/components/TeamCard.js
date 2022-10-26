@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { Text } from 'react-native-paper'
-import './team_card.css'
+// import './team_card.css'
 import { useNavigation } from '@react-navigation/native'
 import Button from './Button'
 import { theme } from '../core/theme'
