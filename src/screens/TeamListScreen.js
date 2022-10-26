@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, Text } from 'react-native'
+import { ActivityIndicator, Text, View } from 'react-native'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -49,7 +49,7 @@ export default function TeamListScreen({ route, navigation }) {
       <Logo />
       <Header>Times Disponíveis</Header>
       {times.map((time, index) => (
-        <div key={index}>
+        <View key={index}>
           <TeamCard
             nome={time.nome}
             descricao={time.descricao}
@@ -59,7 +59,7 @@ export default function TeamListScreen({ route, navigation }) {
             doc_id={time.doc_id}
             stateChanger={setLoading}
           />
-        </div>
+        </View>
       ))}
 
       <Toast message={error} onDismiss={() => setError('')} />

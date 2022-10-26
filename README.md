@@ -58,3 +58,10 @@ export const FIREBASE_CONFIG = {
 ![forgot](https://raw.githubusercontent.com/venits/react-native-market/master/assets/firebase-login-template/forgot.png)
 ![dashboard](https://raw.githubusercontent.com/venits/react-native-market/master/assets/firebase-login-template/dashboard.png)
 
+manual build 
+eas build -p android
+
+run locally in debug
+npx expo start --tunnel
+
+eas submit -p android

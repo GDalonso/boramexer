@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.boramezer"
+      "package": "com.boramexer"
     },
     "web": {
       "favicon": "./assets/favicon.png"

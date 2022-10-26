@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Text, ActivityIndicator } from 'react-native-paper'
 // import './team_card.css'
 import { useNavigation } from '@react-navigation/native'
@@ -8,9 +8,8 @@ import { theme } from '../core/theme'
 import { getCurrentUserId } from '../api/auth-api'
 import { getTeamNameById } from '../api/team-api'
 import Toast from './Toast'
-import { setEntrada } from '../api/entrada-api'
+import { setEntrada, deleteEntradaByUser } from '../api/entrada-api'
 import Background from './Background'
-import { deleteEntradaByUser } from '../api/entrada-api'
 
 export default function PedidoCard({
   approved,
@@ -30,7 +29,7 @@ export default function PedidoCard({
   const [toast, setToast] = useState({ value: '', type: '' })
   const [blockButton, setBlockButton] = useState(false)
   const [blockApprovalButton, setBlockApprovalButton] = useState(false)
-  const [approvalBtnMessage, setApprovalBtnMessage] = useState("Aprovar")
+  const [approvalBtnMessage, setApprovalBtnMessage] = useState('Aprovar')
 
   const [nomeSolicitante, setNomeSolicitante] = useState(requestingUserEmail)
   const [nomeTime, setNomeTime] = useState('carregando')
@@ -40,12 +39,12 @@ export default function PedidoCard({
     setNomeTime(nmTime)
     set_button_message()
   }
-  
+
   const set_button_message = async () => {
     if (approved) {
-      setApprovalBtnMessage("Reprovar")
+      setApprovalBtnMessage('Reprovar')
     } else {
-      setApprovalBtnMessage("Aprovar")
+      setApprovalBtnMessage('Aprovar')
     }
   }
   get_readable_data()
@@ -56,7 +55,7 @@ export default function PedidoCard({
     // no need to reenable after since deletion is a one time operation
     setBlockButton(true)
     const result = await deleteEntradaByUser(doc_id, requestingUser)
-    if (stateChanger){
+    if (stateChanger) {
       stateChanger(Math.random())
     }
     setToast({ type: 'success', message: result })
@@ -66,7 +65,12 @@ export default function PedidoCard({
     // Approve or refuse based on current status
     // Disables button after requesting participation
     setBlockApprovalButton(true)
-    await setEntrada(approvingUser=authenticated_UserId, teamId=doc_id, approved=!approved, requestingUser=requestingUser)
+    await setEntrada(
+      (approvingUser = authenticated_UserId),
+      (teamId = doc_id),
+      (approved = !approved),
+      (requestingUser = requestingUser)
+    )
     if (stateChanger) {
       stateChanger(Math.random())
     }
@@ -77,10 +81,7 @@ export default function PedidoCard({
     })
   }
   // Loading slider while DB is being queryed
-  if (
-    nomeSolicitante === 'carregando' ||
-    nomeTime === 'carregando'
-  ) {
+  if (nomeSolicitante === 'carregando' || nomeTime === 'carregando') {
     return (
       <Background>
         <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -89,14 +90,16 @@ export default function PedidoCard({
   }
 
   return (
-    <div className="team_card">
+    <View className="team_card">
       <Text style={styles.titleText}>{nomeSolicitante}</Text>
-      <br />
-      <br />
+      {/* <br /> */}
+      {/* <br /> */}
       <Text style={styles.titleText}>{nomeTime}</Text>
-      <br />
-      <br />
-      <Text style={styles.titleText}>Aprovado? {approved? " Sim ": " Não "}</Text>
+      {/* <br /> */}
+      {/* <br /> */}
+      <Text style={styles.titleText}>
+        Aprovado? {approved ? ' Sim ' : ' Não '}
+      </Text>
 
       {approvingUser === authenticated_UserId && (
         <>
@@ -130,7 +133,7 @@ export default function PedidoCard({
         </>
       )}
       <Toast {...toast} onDismiss={() => 1 + 1} />
-    </div>
+    </View>
   )
 }
 
