@@ -2,7 +2,7 @@
   "expo": {
     "name": "BoraMexer",
     "slug": "boramexer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -25,7 +25,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.boramexer"
+      "package": "com.boramezer",
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"
