@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text, ActivityIndicator } from 'react-native-paper'
-// import './team_card.css'
 import { useNavigation } from '@react-navigation/native'
 import Button from './Button'
 import { theme } from '../core/theme'
@@ -90,7 +89,7 @@ export default function PedidoCard({
   }
 
   return (
-    <View className="team_card">
+    <View style={styles.pedidoCard}>
       <Text style={styles.titleText}>{nomeSolicitante}</Text>
       {/* <br /> */}
       {/* <br /> */}
@@ -151,5 +150,16 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: 'center',
     marginBottom: 12,
+  },
+  pedidoCard: {
+    backgroundColor:  "#F0F0F0",
+    marginBottom: "2em",
+    paddingVertical: "2em",
+    paddingHorizontal: "3em",
+    borderRadius: "40",
+    overflow: 'hidden',
+    elevation: "5",
+    boxShadow: "5px 5px 15px #00000014",
+    width: "22em",
   },
 })
