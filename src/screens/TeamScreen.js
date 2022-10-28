@@ -89,7 +89,6 @@ export default function TeamScreen({ route, navigation }) {
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
-      <Logo />
       <Header>{create_edit} seu time</Header>
       <TextInput
         label="Nome"

@@ -71,7 +71,6 @@ export default function TeamListScreen({ route, navigation }) {
       <Background>
         <ScrollView style={styles.container}>
           <BackButton goBack={navigation.goBack} />
-          <Logo />
           <Header>{headerMessage}</Header>
           {times.map((time, index) => (
             <View key={index}>

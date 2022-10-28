@@ -33,7 +33,7 @@ export default function PedidosListScreen({ route, navigation }) {
       : getEntradasByUser
   const process_header_message = async () => {
     if (route.params && route.params.toApprove) {
-      setHeaderMessage('Aguardando minha aprovação')
+      setHeaderMessage('Pedidos aguardando minha aprovação')
     } else {
       setHeaderMessage('Status de pedidos que eu fiz')
     }
@@ -70,7 +70,6 @@ export default function PedidosListScreen({ route, navigation }) {
       <Background>
         <ScrollView style={styles.container}>
           <BackButton goBack={navigation.goBack} />
-          <Logo />
           <Header>{headerMessage}</Header>
           {pedidos.map((pedido, index) => (
             <View key={index}>

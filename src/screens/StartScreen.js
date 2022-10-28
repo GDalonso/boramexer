@@ -8,7 +8,6 @@ import Paragraph from '../components/Paragraph'
 export default function StartScreen({ navigation }) {
   return (
     <Background>
-      <Logo />
       <Header>BoraMexer</Header>
       <Paragraph>
         O aplicativo para encontrar parceiros de exercícios.
