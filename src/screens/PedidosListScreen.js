@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  View,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Dimensions,
+} from 'react-native'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -9,7 +17,6 @@ import { getCurrentUserId } from '../api/auth-api'
 import BackButton from '../components/BackButton'
 import { getEntradasByUser, getEntradasByTeamOwner } from '../api/entrada-api'
 import PedidoCard from '../components/PedidoCard'
-import { getTeamNameById } from '../api/team-api'
 
 export default function PedidosListScreen({ route, navigation }) {
   const [loading, setLoading] = useState(0)
@@ -60,25 +67,43 @@ export default function PedidosListScreen({ route, navigation }) {
   }
 
   return (
-    <Background>
-      <BackButton goBack={navigation.goBack} />
-      <Logo />
-      <Header>{headerMessage}</Header>
-      {pedidos.map((pedido, index) => (
-        <View key={index}>
-          <PedidoCard
-            approved={pedido.approved}
-            approvingUser={pedido.approvingUser}
-            requestingUser={pedido.requestingUser}
-            teamId={pedido.teamId}
-            doc_id={pedido.doc_id}
-            stateChanger={setLoading}
-            requestingUserEmail={pedido.requestingUserEmail}
-          />
-        </View>
-      ))}
+    <SafeAreaView style={styles.container}>
+      <Background>
+        <ScrollView style={styles.container}>
+          <BackButton goBack={navigation.goBack} />
+          <Logo />
+          <Header>{headerMessage}</Header>
+          {pedidos.map((pedido, index) => (
+            <View key={index}>
+              <PedidoCard
+                approved={pedido.approved}
+                approvingUser={pedido.approvingUser}
+                requestingUser={pedido.requestingUser}
+                teamId={pedido.teamId}
+                doc_id={pedido.doc_id}
+                stateChanger={setLoading}
+                requestingUserEmail={pedido.requestingUserEmail}
+              />
+            </View>
+          ))}
 
-      <Toast message={error} onDismiss={() => setError('')} />
-    </Background>
+          <Toast message={error} onDismiss={() => setError('')} />
+        </ScrollView>
+      </Background>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+    marginHorizontal: 20,
+  },
+  text: {
+    fontSize: 42,
+  },
+})

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  View,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+} from 'react-native'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -44,25 +51,43 @@ export default function TeamListScreen({ route, navigation }) {
   }
 
   return (
-    <Background>
-      <BackButton goBack={navigation.goBack} />
-      <Logo />
-      <Header>Times Disponíveis</Header>
-      {times.map((time, index) => (
-        <View key={index}>
-          <TeamCard
-            nome={time.nome}
-            descricao={time.descricao}
-            endereco={time.endereco}
-            horario={time.horario}
-            doc_UserId={time.userId}
-            doc_id={time.doc_id}
-            stateChanger={setLoading}
-          />
-        </View>
-      ))}
+    <SafeAreaView style={styles.container}>
+      <Background>
+        <ScrollView style={styles.container}>
+          <BackButton goBack={navigation.goBack} />
+          <Logo />
+          <Header>Times Disponíveis</Header>
+          {times.map((time, index) => (
+            <View key={index}>
+              <TeamCard
+                nome={time.nome}
+                descricao={time.descricao}
+                endereco={time.endereco}
+                horario={time.horario}
+                doc_UserId={time.userId}
+                doc_id={time.doc_id}
+                stateChanger={setLoading}
+              />
+            </View>
+          ))}
 
-      <Toast message={error} onDismiss={() => setError('')} />
-    </Background>
+          <Toast message={error} onDismiss={() => setError('')} />
+        </ScrollView>
+      </Background>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+    marginHorizontal: 20,
+  },
+  text: {
+    fontSize: 42,
+  },
+})
