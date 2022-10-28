@@ -68,8 +68,8 @@ export default function PedidosListScreen({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Background>
+        <BackButton goBack={navigation.goBack} />
         <ScrollView style={styles.container}>
-          <BackButton goBack={navigation.goBack} />
           <Header>{headerMessage}</Header>
           {pedidos.map((pedido, index) => (
             <View key={index}>

@@ -69,8 +69,8 @@ export default function TeamListScreen({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Background>
+      <BackButton goBack={navigation.goBack} />
         <ScrollView style={styles.container}>
-          <BackButton goBack={navigation.goBack} />
           <Header>{headerMessage}</Header>
           {times.map((time, index) => (
             <View key={index}>
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: StatusBar.currentHeight,
+    
   },
   scrollView: {
     backgroundColor: 'pink',
