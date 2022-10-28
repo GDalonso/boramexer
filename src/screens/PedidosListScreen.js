@@ -6,7 +6,6 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  Dimensions,
 } from 'react-native'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -34,7 +33,7 @@ export default function PedidosListScreen({ route, navigation }) {
       : getEntradasByUser
   const process_header_message = async () => {
     if (route.params && route.params.toApprove) {
-      setHeaderMessage('Pedidos aguardando minha aprovação')
+      setHeaderMessage('Aguardando minha aprovação')
     } else {
       setHeaderMessage('Status de pedidos que eu fiz')
     }

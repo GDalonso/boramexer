@@ -30,9 +30,8 @@ export default function TeamCard({
   const [toast, setToast] = useState({ value: '', type: '' })
   const [blockButton, setBlockButton] = useState(false)
   const [blockPedidoButton, setBlockPedidoButton] = useState(false)
-  const [mensagemPedirEntrada, setMensagemPedirEntrada] = useState(
-    'Pedir para participar'
-  )
+  const [mensagemPedirEntrada, setMensagemPedirEntrada] =
+    useState('Participar')
 
   const handle_deletion = async () => {
     // Disables button while processing
