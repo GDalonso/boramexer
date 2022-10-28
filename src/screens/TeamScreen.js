@@ -62,6 +62,7 @@ export default function TeamScreen({ route, navigation }) {
       setDescricao({ ...descricao, error: descricaoError })
       setEndereco({ ...endereco, error: enderecoError })
       setHorario({ ...horario, error: horarioError })
+      setBlockButton(false) 
       return
     }
     setLoading(true)
@@ -81,6 +82,10 @@ export default function TeamScreen({ route, navigation }) {
     }
   }
 
+  const onToastDismissal = async () => {
+    setBlockButton(false)
+    navigation.navigate('TeamListScreen')
+  }
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
@@ -123,7 +128,7 @@ export default function TeamScreen({ route, navigation }) {
       </Button>
       <Toast
         {...toast}
-        onDismiss={() => navigation.navigate('TeamListScreen')}
+        onDismiss={() => onToastDismissal()}
       />
     </Background>
   )
