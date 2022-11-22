@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, Text } from 'react-native'
+import {
+  ActivityIndicator,
+  View,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+} from 'react-native'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -9,26 +16,27 @@ import { getCurrentUserId } from '../api/auth-api'
 import BackButton from '../components/BackButton'
 import { getEntradasByUser, getEntradasByTeamOwner } from '../api/entrada-api'
 import PedidoCard from '../components/PedidoCard'
-import { getTeamNameById } from '../api/team-api'
 
 export default function PedidosListScreen({ route, navigation }) {
   const [loading, setLoading] = useState(0)
   const [error, setError] = useState()
   const [pedidos, setPedidos] = useState([])
   const [fetching, setFetch] = useState(true)
-  const [headerMessage, setHeaderMessage] = useState("fix this message")
+  const [headerMessage, setHeaderMessage] = useState('fix this message')
 
   const authenticated_UserId = getCurrentUserId()
 
   // Define if itll show all teams or only the current user ones
   const query_function =
-    route.params && route.params.toApprove ? getEntradasByTeamOwner: getEntradasByUser
+    route.params && route.params.toApprove
+      ? getEntradasByTeamOwner
+      : getEntradasByUser
   const process_header_message = async () => {
     if (route.params && route.params.toApprove) {
-      setHeaderMessage("Pedidos aguardando minha aprovação")
+      setHeaderMessage('Pedidos aguardando minha aprovação')
     } else {
-      setHeaderMessage("Status de pedidos que eu fiz")
-      }
+      setHeaderMessage('Status de pedidos que eu fiz')
+    }
   }
 
   // fetch pedidos from the database
@@ -38,8 +46,8 @@ export default function PedidosListScreen({ route, navigation }) {
         setPedidos(r)
         setFetch(false)
         process_header_message()
-        if (r.length == 0){
-          setHeaderMessage("Nenhum pedido aguardando aprovação")
+        if (r.length == 0) {
+          setHeaderMessage('Nenhum pedido aguardando aprovação')
         }
       })
       .catch((e) => {
@@ -58,25 +66,42 @@ export default function PedidosListScreen({ route, navigation }) {
   }
 
   return (
-    <Background>
-      <BackButton goBack={navigation.goBack} />
-      <Logo />
-      <Header>{headerMessage}</Header>
-      {pedidos.map((pedido, index) => (
-        <div key={index}>
-          <PedidoCard
-            approved={pedido.approved}
-            approvingUser={pedido.approvingUser}
-            requestingUser={pedido.requestingUser}
-            teamId={pedido.teamId}
-            doc_id={pedido.doc_id}
-            stateChanger={setLoading}
-            requestingUserEmail={pedido.requestingUserEmail}
-          />
-        </div>
-      ))}
+    <SafeAreaView style={styles.container}>
+      <Background>
+        <BackButton goBack={navigation.goBack} />
+        <ScrollView style={styles.container}>
+          <Header>{headerMessage}</Header>
+          {pedidos.map((pedido, index) => (
+            <View key={index}>
+              <PedidoCard
+                approved={pedido.approved}
+                approvingUser={pedido.approvingUser}
+                requestingUser={pedido.requestingUser}
+                teamId={pedido.teamId}
+                doc_id={pedido.doc_id}
+                stateChanger={setLoading}
+                requestingUserEmail={pedido.requestingUserEmail}
+              />
+            </View>
+          ))}
 
-      <Toast message={error} onDismiss={() => setError('')} />
-    </Background>
+          <Toast message={error} onDismiss={() => setError('')} />
+        </ScrollView>
+      </Background>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+    marginHorizontal: 20,
+  },
+  text: {
+    fontSize: 42,
+  },
+})

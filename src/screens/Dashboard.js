@@ -9,10 +9,9 @@ import { logoutUser } from '../api/auth-api'
 export default function Dashboard({ navigation }) {
   return (
     <Background>
-      <Header>Let’s start</Header>
+      <Header>Olá</Header>
       <Paragraph>
-        Your amazing app starts here. Open you favorite code editor and start
-        editing this project.
+        Você pode criar um time, pedir para participar e gerenciar pedidos feitos e recebidos.
       </Paragraph>
       <Button mode="outlined" onPress={() => navigation.navigate('TeamScreen')}>
         Criar Time
@@ -21,7 +20,7 @@ export default function Dashboard({ navigation }) {
         mode="outlined"
         onPress={() => navigation.navigate('TeamListScreen')}
       >
-        Ver todos os times disponíveis
+        Ver todos os times
       </Button>
       <Button
         mode="outlined"
@@ -45,10 +44,10 @@ export default function Dashboard({ navigation }) {
           navigation.navigate('PedidosListScreen', { toApprove: true })
         }
       >
-        Pedidos aguardando minha aprovação
+        Aprovar pedidos
       </Button>
       <Button mode="outlined" onPress={logoutUser}>
-        Logout
+        Sair
       </Button>
     </Background>
   )

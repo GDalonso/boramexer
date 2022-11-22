@@ -23,7 +23,8 @@ export default function TeamScreen({ route, navigation }) {
     route.params && route.params.editing ? route.params.horario : ''
   const doc_id =
     route.params && route.params.editing ? route.params.doc_id : undefined
-  const stateChanger = route.params && route.params.editing ? route.params.stateChanger : undefined
+  const stateChanger =
+    route.params && route.params.editing ? route.params.stateChanger : undefined
   // Initialize all the variables for the data
   const [nome, setNome] = useState({ value: nomeInitialValue, error: '' })
   const [descricao, setDescricao] = useState({
@@ -47,9 +48,9 @@ export default function TeamScreen({ route, navigation }) {
   const create_edit = route.params && route.params.editing ? 'Editar' : 'Criar'
 
   const onTeamCreatePressed = async () => {
-    //Disables button while processing
-    //no need to reenable after since creation is a one time operation
-    setBlockButton(true) 
+    // Disables button while processing
+    // no need to reenable after since creation is a one time operation
+    setBlockButton(true)
     // field cannot be empty validators for now
     // actual validators still to be implemented
     const nomeError = nameValidator(nome.value)
@@ -62,10 +63,11 @@ export default function TeamScreen({ route, navigation }) {
       setDescricao({ ...descricao, error: descricaoError })
       setEndereco({ ...endereco, error: enderecoError })
       setHorario({ ...horario, error: horarioError })
+      setBlockButton(false)
       return
     }
     setLoading(true)
-    const response = await setTeam({
+    await setTeam({
       nome: nome.value,
       descricao: descricao.value,
       endereco: endereco.value,
@@ -73,10 +75,14 @@ export default function TeamScreen({ route, navigation }) {
       doc_id,
     }).then((r) => {
       setToast({ type: 'success', message: 'Operação gravada com sucesso' })
+      // toast callback was bugging and reloading the page all the time so did this manual one
+      setTimeout(() => {
+        setBlockButton(false), navigation.navigate('TeamListScreen'), setToast({ value: '', type: '' })
+      }, 1000)
     })
 
     setLoading(false)
-    if (stateChanger){
+    if (stateChanger) {
       stateChanger(Math.random())
     }
   }
@@ -84,7 +90,6 @@ export default function TeamScreen({ route, navigation }) {
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
-      <Logo />
       <Header>{create_edit} seu time</Header>
       <TextInput
         label="Nome"
@@ -118,13 +123,15 @@ export default function TeamScreen({ route, navigation }) {
         error={!!horario.error}
         errorText={horario.error}
       />
-      <Button mode="outlined" loading={loading} onPress={onTeamCreatePressed} disabled={blockButton}>
+      <Button
+        mode="outlined"
+        loading={loading}
+        onPress={onTeamCreatePressed}
+        disabled={blockButton}
+      >
         {create_edit}
       </Button>
-      <Toast
-        {...toast}
-        onDismiss={() => navigation.navigate('TeamListScreen')}
-      />
+      <Toast {...toast} onDismiss={() => 1 + 1} />
     </Background>
   )
 }

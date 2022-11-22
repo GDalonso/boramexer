@@ -36,7 +36,6 @@ export default function ResetPasswordScreen({ navigation }) {
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
-      <Logo />
       <Header>Recrie sua senha</Header>
       <TextInput
         label="Endereço de E-mail"

@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import './team_card.css'
 import { useNavigation } from '@react-navigation/native'
 import Button from './Button'
 import { theme } from '../core/theme'
-import { getCurrentUserId } from '../api/auth-api'
+import { getCurrentUserId, getCurrentUserEmail } from '../api/auth-api'
 import { deleteTeamsByUser } from '../api/team-api'
 import Toast from './Toast'
-import { setEntrada, getIdEntradasByRequestingUserAndTeam } from '../api/entrada-api'
-import { getCurrentUserEmail } from '../api/auth-api'
+import {
+  setEntrada,
+  getIdEntradasByRequestingUserAndTeam,
+} from '../api/entrada-api'
 
 export default function TeamCard({
   nome,
   descricao,
   endereco,
   horario,
-  doc_UserId, //Usuário que criou o time
-  doc_id, //Team id
+  doc_UserId, // Usuário que criou o time
+  doc_id, // Team id
   stateChanger, // Number, changing it's value reloads the page
 }) {
   // Currently Authenticated User
@@ -29,41 +30,52 @@ export default function TeamCard({
   const [toast, setToast] = useState({ value: '', type: '' })
   const [blockButton, setBlockButton] = useState(false)
   const [blockPedidoButton, setBlockPedidoButton] = useState(false)
-  const [mensagemPedirEntrada, setMensagemPedirEntrada] = useState("Pedir para participar")
+  const [mensagemPedirEntrada, setMensagemPedirEntrada] =
+    useState('Participar')
 
   const handle_deletion = async () => {
-    //Disables button while processing
-    //no need to reenable after since deletion is a one time operation
-    setBlockButton(true) 
+    // Disables button while processing
+    // no need to reenable after since deletion is a one time operation
+    setBlockButton(true)
     const result = await deleteTeamsByUser(authenticated_UserId, doc_id)
     setToast({ type: 'success', message: result })
   }
 
   const handle_pedido_entrada = async (doc_UserId, doc_id) => {
-    //Disables button after requesting participation
-    setBlockPedidoButton(true) 
+    // Disables button after requesting participation
+    setBlockPedidoButton(true)
     await setEntrada(doc_UserId, doc_id)
-    setToast({ type: 'success', message: "Pedido de entrada enviado com sucesso" })
+    setToast({
+      type: 'success',
+      message: 'Pedido de entrada enviado com sucesso',
+    })
   }
 
-  const handle_mensagem_botao_pedido_entrada = async (doc_UserId, doc_id, authenticated_UserId) => {
-    if (doc_UserId != authenticated_UserId){
-        const idPedido = await getIdEntradasByRequestingUserAndTeam(authenticated_UserId, doc_id)
-        if (idPedido){
-          setBlockPedidoButton(true) 
-          setMensagemPedirEntrada("Pedido já enviado")
-        }
-    } 
+  const handle_mensagem_botao_pedido_entrada = async (
+    doc_UserId,
+    doc_id,
+    authenticated_UserId
+  ) => {
+    if (doc_UserId != authenticated_UserId) {
+      const idPedido = await getIdEntradasByRequestingUserAndTeam(
+        authenticated_UserId,
+        doc_id
+      )
+      if (idPedido) {
+        setBlockPedidoButton(true)
+        setMensagemPedirEntrada('Pedido já enviado')
+      }
+    }
   }
   handle_mensagem_botao_pedido_entrada(doc_UserId, doc_id, authenticated_UserId)
 
   return (
-    <div className="team_card">
+    <View style={styles.teamCard}>
       <Text style={styles.titleText}>{nome}</Text>
-      <br />
-      <br />
+      {/* <br /> */}
+      {/* <br /> */}
       <Text style={styles.regularText}> {descricao} </Text>
-      <br />
+      {/* <br /> */}
       <Text style={styles.regularText}> {endereco} </Text>
       <Text style={styles.regularText}> {horario} </Text>
 
@@ -106,7 +118,7 @@ export default function TeamCard({
           <Toast {...toast} onDismiss={() => 1 + 1} />
         </>
       )}
-    </div>
+    </View>
   )
 }
 
@@ -124,5 +136,16 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: 'center',
     marginBottom: 12,
+  },
+  teamCard: {
+    backgroundColor:  "#F0F0F0",
+    marginBottom: 32,
+    paddingVertical: 32,
+    paddingHorizontal: 48,
+    borderRadius: 40,
+    overflow: 'hidden',
+    elevation: 5,
+    boxShadow: "5px 5px 15px #00000014",
+    width: 300,
   },
 })
